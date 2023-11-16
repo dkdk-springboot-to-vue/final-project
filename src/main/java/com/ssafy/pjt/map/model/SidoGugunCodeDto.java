@@ -1,4 +1,4 @@
-package com.ssafy.pjt.loc.model.mapper;
+package com.ssafy.pjt.map.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+ <mapper namespace="com.ssafy.pjt.chat.model.mapper.ChatMapper" >
+ 
+ 	<insert id="registRoom" parameterType="chatRoomDto">
+ 		insert into chatrooms (senderId, receiverId)
+ 		values (#{senderId}, #{receiverId})
+ 	</insert>
+ 	
+ 	<select id="listRoom" resultType="chatRoomDto">
+ 		select roomId, senderId, receiverId, createdAt
+ 		from chatrooms
+ 		order by createdAt desc;
+ 	</select>
+ 
+ 	<select id="listChat" parameterType="String" resultType="chatDto">
+ 		select chatId, roomId, userId, content, createdAt
+ 		from chats
+ 		where roomId = #{roomId}
+ 	</select>
+ 
+ 	<insert id="sendChat" parameterType="chatDto">
+ 		insert into chats (roomId, userId, content)
+ 		values (#{roomId}, #{userId}, #{content})
+ 	</insert>
+ 
+ </mapper>
