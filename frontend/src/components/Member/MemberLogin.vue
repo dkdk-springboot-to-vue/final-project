@@ -1,46 +1,48 @@
 <template>
-    <div>
-        <h2>Modal Login Form</h2>
-        <button @click="toggleLoginForm" style="width:auto;">Login</button>
+    <button @click="toggleLoginForm" style="width:auto;">Login</button>
 
-        <div v-if="isLoginFormVisible" class="modal" @click="closeLoginForm">
-            <form class="modal-content animate" @click.stop>
-                <div class="imgcontainer">
-                    <span @click="closeLoginForm" class="close" title="Close Modal">&times;</span>
-                    <img src="@/assets/img/velkoz.jpg" alt="Avatar" class="avatar">
+    <form @submit.prevent="login" v-if="isLoginFormVisible" class="modal" @click="closeLoginForm">
+        <div class="modal-content animate" @click.stop>
+            <div class="imgcontainer">
+                <span @click="closeLoginForm" class="close" title="Close Modal"></span>
+                <img src="@/assets/img/velkoz.jpg" alt="Avatar" class="avatar">
+            </div>
+
+            <div class="form-container">
+                <label for="userName"><b>Username</b></label>
+                <input v-model="formData.username" type="text" placeholder="Enter Username" name="userName" required>
+
+                <label for="userPw"><b>Password</b></label>
+                <input v-model="formData.password" type="password" placeholder="Enter Password" name="userPw" required>
+
+                <div class="remember-me">
+                    <input type="checkbox" v-model="formData.remember">
+                    <label> Remember me</label>
                 </div>
 
-                <div class="container">
-                    <label for="uname"><b>Username</b></label>
-                    <input v-model="formData.username" type="text" placeholder="Enter Username" name="uname" required>
-
-                    <label for="psw"><b>Password</b></label>
-                    <input v-model="formData.password" type="password" placeholder="Enter Password" name="psw" required>
-
+                <div class="buttons">
                     <button type="button" @click="login">Login</button>
-                    <label>
-                        <input type="checkbox" v-model="formData.remember"> Remember me
-                    </label>
-                </div>
-
-                <div class="container" style="background-color:#f1f1f1">
                     <button type="button" @click="closeLoginForm" class="cancelbtn">Cancel</button>
-                    <span class="psw">Forgot <a href="#">password?</a></span>
                 </div>
-            </form>
+            </div>
+
+            <div class="container" style="background-color:#f1f1f1">
+                <span class="pw">Forgot <a href="#">password?</a></span>
+            </div>
         </div>
-    </div>
+    </form>
 </template>
 
 <script>
 import { ref } from 'vue';
+import axios from 'axios';
 
 export default {
     setup() {
         const isLoginFormVisible = ref(false);
         const formData = ref({
-            username: '',
-            password: '',
+            userId: '',
+            userPw: '',
             remember: false,
         });
 
@@ -52,9 +54,22 @@ export default {
             isLoginFormVisible.value = false;
         };
 
-        const login = () => {
-            // Add your login logic here
-            console.log('Login logic goes here', formData.value);
+        const login = async () => {
+            try {
+                const response = await axios.post('http://localhost:80/api/login', {
+                    userId: formData,
+                    userPw: formData,
+                });
+
+                // 로그인 성공 로직 추가
+                console.log('Login successful', response.data);
+
+                // 성공적으로 로그인했을 때의 동작 추가
+            } catch (error) {
+                console.error('Error during login', error.response.data);
+                // 로그인 실패 로직 추가
+            }
+
             closeLoginForm();
         };
 
@@ -68,6 +83,7 @@ export default {
     },
 };
 </script>
+
 <style scoped>
 /* Container for the component */
 .container {
@@ -76,7 +92,7 @@ export default {
 
 /* Login button styling */
 button {
-    background-color: #04AA6D;
+    background-color: salmon;
     color: white;
     padding: 14px 20px;
     margin: 8px 0;
@@ -172,29 +188,8 @@ input {
     border-radius: 5px;
 }
 
-/* Submit button styling */
-button[type="submit"] {
-    background-color: #04AA6D;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    width: 100%;
-    border-radius: 5px;
-    font-size: 16px;
-}
-
-button[type="submit"]:hover {
-    opacity: 0.8;
-}
-
-/* Remember me checkbox styling */
-label input[type="checkbox"] {
-    margin-top: 8px;
-}
-
-/* Cancel button styling */
+/* Common button styling for submit and cancel */
+button[type="submit"],
 .cancelbtn {
     width: 100%;
     padding: 10px 18px;
@@ -203,18 +198,35 @@ label input[type="checkbox"] {
     border-radius: 5px;
     color: white;
     cursor: pointer;
+    margin-bottom: 8px;
+    /* Added margin to the bottom */
 }
 
+button[type="submit"]:hover,
 .cancelbtn:hover {
     opacity: 0.8;
 }
 
-/* Password link styling */
-.psw a {
-    color: #04AA6D;
+/* Remember me checkbox styling */
+label input[type="checkbox"] {
+    margin-top: 8px;
 }
 
-.psw a:hover {
-    text-decoration: underline;
+/* Positioning of Remember me and buttons */
+.remember-me {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.buttons button {
+    width: 48%;
+    /* Adjust width as needed */
 }
 </style>
