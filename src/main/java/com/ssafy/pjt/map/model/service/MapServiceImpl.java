@@ -1,9 +1,11 @@
 package com.ssafy.pjt.map.model.service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.pjt.map.model.AttractionDto;
 import com.ssafy.pjt.map.model.SidoGugunCodeDto;
 import com.ssafy.pjt.map.model.mapper.MapMapper;
 
@@ -24,9 +26,15 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public List<SidoGugunCodeDto> getGugunInSido(String sido) throws Exception {
+	public List<SidoGugunCodeDto> getGugunInSido(int sido_code) throws Exception {
 		// TODO Auto-generated method stub
-		return mapper.getGugunInSido(sido);
+		return mapper.getGugunInSido(sido_code);
+	}
+
+	@Override
+	public List<AttractionDto> getAttractionList(int gugun_code, int sido_code) throws Exception {
+		// TODO Auto-generated method stub
+		return mapper.getAttractionList(gugun_code, sido_code);
 	}
 
 }

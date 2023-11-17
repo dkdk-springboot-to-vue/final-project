@@ -15,12 +15,12 @@ import lombok.ToString;
 public class SidoGugunCodeDto {
 
 	@ApiModelProperty(value = "시도코드")
-	private String sidoCode;
+	private int sido_code;
 	@ApiModelProperty(value = "시도이름")
-	private String sidoName;
+	private String sido_name;
 	@ApiModelProperty(value = "구군코드")
-	private String gugunCode;
+	private int gugun_code;
 	@ApiModelProperty(value = "구군이름")
-	private String gugunName;
+	private String gugun_name;
 	
 }

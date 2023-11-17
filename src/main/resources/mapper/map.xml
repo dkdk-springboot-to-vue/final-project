@@ -5,16 +5,23 @@
 <mapper namespace="com.ssafy.pjt.map.model.mapper.MapMapper">
 
 	<select id="getSido" resultType="sidoGugunCodeDto">
-		select left(sidoCode,2) sidoCode, sidoName
-		from sidocode
-		order by sidoCode
+		select sido_code, sido_name
+		from sido
+		order by sido_code
 	</select>
 	
-	<select id="getGugunInSido" parameterType="string" resultType="sidoGugunCodeDto">
-		select left(gugunCode,5) gugunCode, gugunName
-		from guguncode
-		where left(gugunCode,2) = #{sido}
-		order by gugunCode
+	<select id="getGugunInSido" parameterType="int" resultType="sidoGugunCodeDto">
+		select gugun_code, gugun_name
+		from gugun
+		where sido_code = #{sido_code}
+		order by gugun_code
+	</select>
+	
+	<select id="getAttractionList" parameterType="attractionDto" resultType="attractionDto">
+		select content_id, content_type_id, title, addr1, zipcode, tel, first_image, first_image2, 
+			   readcount, sido_code, gugun_code, latitude, longitude, mlevel
+		from attraction_info
+		where sido_code = #{sido_code} and gugun_code = #{gugun_code}
 	</select>
 	
 </mapper>
