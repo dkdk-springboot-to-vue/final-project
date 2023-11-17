@@ -24,4 +24,20 @@
 		where sido_code = #{sido_code} and gugun_code = #{gugun_code}
 	</select>
 	
+	<insert id="registLike" parameterType="likeDto">
+		insert into likes (contentId, userId, type)
+		values (#{contentId}, #{userId}, #{type})
+	</insert>
+	
+	<delete id="deleteLike" parameterType="likeDto">
+		delete from likes
+		where likeId = #{likeId}
+	</delete>
+	
+	<select id="listLike" parameterType="int">
+		select likeId, contentId, userId, type, createdAt
+		from likes
+		where contentId = #{contentId}
+	</select>
+	
 </mapper>

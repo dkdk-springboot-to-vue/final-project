@@ -1,4 +1,4 @@
-package com.ssafy.pjt.likes.model;
+package com.ssafy.pjt.map.model;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,8 +11,8 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-@ApiModel(value = "LikesDto : 좋아요 정보", description = "좋아요 정보를 나타낸다.")
-public class LikesDto {
+@ApiModel(value = "LikeDto : 좋아요 정보", description = "좋아요 정보를 나타낸다.")
+public class LikeDto {
 
     @ApiModelProperty(value = "좋아요 ID")
     private int likeId;
@@ -20,10 +20,8 @@ public class LikesDto {
     private int contentId;
     @ApiModelProperty(value = "사용자 ID")
     private String userId;
-    @ApiModelProperty(value = "좋아요 타입")
+    @ApiModelProperty(value = "좋아요 타입 (1:좋아요 / 2:싫어요)")
     private int type;
     @ApiModelProperty(value = "생성일")
     private String createdAt;
-
-    // 생성자, getter, setter, toString 등은 필요에 따라 추가 가능합니다.
 }

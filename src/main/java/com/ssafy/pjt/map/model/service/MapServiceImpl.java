@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ssafy.pjt.map.model.AttractionDto;
+import com.ssafy.pjt.map.model.LikeDto;
 import com.ssafy.pjt.map.model.SidoGugunCodeDto;
 import com.ssafy.pjt.map.model.mapper.MapMapper;
 
@@ -32,9 +33,24 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	public List<AttractionDto> getAttractionList(int gugun_code, int sido_code) throws Exception {
+	public List<AttractionDto> getAttractionList(SidoGugunCodeDto dto) throws Exception {
 		// TODO Auto-generated method stub
-		return mapper.getAttractionList(gugun_code, sido_code);
+		return mapper.getAttractionList(dto);
+	}
+
+	@Override
+	public void registLike(LikeDto dto) throws Exception {
+		mapper.registLike(dto);
+	}
+
+	@Override
+	public void deleteLike(LikeDto dto) throws Exception {
+		mapper.deleteLike(dto);
+	}
+
+	@Override
+	public List<LikeDto> listLike(int contentId) throws Exception {
+		return mapper.listLike(contentId);
 	}
 
 }

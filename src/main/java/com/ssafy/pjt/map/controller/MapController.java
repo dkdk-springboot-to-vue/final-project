@@ -9,16 +9,18 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.pjt.map.model.AttractionDto;
+import com.ssafy.pjt.map.model.LikeDto;
 import com.ssafy.pjt.map.model.SidoGugunCodeDto;
 import com.ssafy.pjt.map.model.service.MapService;
+import com.ssafy.pjt.member.model.MemberDto;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import lombok.extern.slf4j.Slf4j;
 
 @RestController
@@ -66,19 +68,31 @@ public class MapController {
 	
 	@ApiOperation(value = "관광지 정보 조회", notes = "시도, 구군 코드에 존재하는 관광지 조회")
 	@PostMapping("/mapview")
-	public ResponseEntity<?> getAttrList(@RequestBody @ApiParam(value = "조회할 시도, 구군 정보", required = true) AttractionDto dto) {
+	public ResponseEntity<?> getAttrList(@RequestBody @ApiParam(value = "조회할 시도, 구군 정보", required = true) SidoGugunCodeDto dto) {
 		log.info("getAttrList - 호출 - {}", dto);
-		int gugun = dto.getGugun_code();
-		int sido = dto.getSido_code();
 		List<AttractionDto> attractionList;
 		try {
-			attractionList = service.getAttractionList(gugun, sido);
+			attractionList = service.getAttractionList(dto);
 			return new ResponseEntity<List<AttractionDto>>(attractionList, HttpStatus.CREATED);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			return exceptionHandling(e);
 		}
 
+	}
+	
+	@PostMapping(value = "like")
+	public ResponseEntity<?> registLike(@RequestBody LikeDto dto) {
+		log.info("registLike - 호출 - {}", dto);
+		try {
+			service.registLike(dto);
+			List<LikeDto> list = service.listLike(dto.getContentId());
+			return new ResponseEntity<List<LikeDto>>(list, HttpStatus.CREATED);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return exceptionHandling(e);
+		}
 	}
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {

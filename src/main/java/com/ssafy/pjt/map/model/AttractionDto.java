@@ -1,5 +1,7 @@
 package com.ssafy.pjt.map.model;
 
+import java.util.List;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -24,4 +26,6 @@ public class AttractionDto {
 	private double latitude;
 	private double longitude;
 	private String mlevel;
+	
+	private List<LikeDto> likes;
 }
