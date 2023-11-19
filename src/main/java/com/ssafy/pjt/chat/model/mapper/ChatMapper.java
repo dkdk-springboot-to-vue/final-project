@@ -13,6 +13,8 @@ public interface ChatMapper {
 	void registRoom(ChatRoomDto dto) throws Exception;
 	// 채팅방 목록 조회
 	List<ChatRoomDto> listRoom() throws Exception;
+	// 채팅방 상세목록 조회
+	ChatRoomDto detailRoom(String roomId) throws Exception;
 	
 	// 채팅 조회
 	List<ChatDto> listChat(String roomId) throws Exception;

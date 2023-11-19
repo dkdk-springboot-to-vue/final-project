@@ -28,12 +28,11 @@ public class StompConfiguration implements WebSocketMessageBrokerConfigurer  {
     }
 
     @Override
-    // 웹소켓 연결 주소 설정
+    // connection을 맺을때 CORS 허용
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // stomp 접속 주소 url => /ws-stomp
-        registry.addEndpoint("/ws") // 연결될 엔드포인트
-		        .setAllowedOriginPatterns("*")        
-		        .withSockJS(); // SocketJS 를 연결한다는 설정
+        registry.addEndpoint("/ws")
+            .setAllowedOriginPatterns("*")
+            .withSockJS();
     }
     
 }

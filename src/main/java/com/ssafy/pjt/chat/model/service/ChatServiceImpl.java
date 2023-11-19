@@ -38,4 +38,10 @@ public class ChatServiceImpl implements ChatService {
 		mapper.sendChat(dto);
 	}
 
+	@Override
+	public ChatRoomDto detailRoom(String roomId) throws Exception {
+		// TODO Auto-generated method stub
+		return mapper.detailRoom(roomId);
+	}
+
 }

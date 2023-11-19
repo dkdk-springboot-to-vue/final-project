@@ -11,11 +11,9 @@ public interface MapService {
 	List<SidoGugunCodeDto> getSido() throws Exception;
 	List<SidoGugunCodeDto> getGugunInSido(int sido_code) throws Exception;
 	
-	// 좋아요, 싫어요 등록
-	public void registLike(LikeDto dto) throws Exception;
-	// 좋아요 싫어요 삭제
-	public void deleteLike(LikeDto dto) throws Exception;
 	// 좋아요 싫어요 조회
 	public List<LikeDto> listLike(int contentId) throws Exception;
+
+	void toggleLike(LikeDto dto) throws Exception;
 	
 }

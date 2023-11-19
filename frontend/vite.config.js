@@ -1,22 +1,26 @@
-import { fileURLToPath, URL } from "node:url";
+import { fileURLToPath, URL } from 'node:url';
 
-import { defineConfig } from "vite";
-import vue from "@vitejs/plugin-vue";
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
   resolve: {
     alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
   build: {
-    outDir: "../src/main/resources/static",
+    outDir: '../src/main/resources/static',
   }, // 빌드 결과물이 생성되는 경로
   server: {
     proxy: {
-      "/api": "http://localhost:80",
+      '/api': 'http://localhost:80',
     }, // proxy 설정
+  },
+  define: {
+    //  global is not defined 에러 처리
+    global: {},
   },
 });

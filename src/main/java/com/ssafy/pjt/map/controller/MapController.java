@@ -81,11 +81,12 @@ public class MapController {
 
 	}
 	
+	@ApiOperation(value = "좋아요 등록, 취소", notes = "좋아요, 싫어요를 등록/취소하고 서로 다른 감정표현이 동시에 등록되지 않게")
 	@PostMapping(value = "like")
-	public ResponseEntity<?> registLike(@RequestBody LikeDto dto) {
-		log.info("registLike - 호출 - {}", dto);
+	public ResponseEntity<?> toggleLike(@RequestBody LikeDto dto) {
+		log.info("toggleLike - 호출 - {}", dto);
 		try {
-			service.registLike(dto);
+			service.toggleLike(dto);
 			List<LikeDto> list = service.listLike(dto.getContentId());
 			return new ResponseEntity<List<LikeDto>>(list, HttpStatus.CREATED);
 		} catch (Exception e) {

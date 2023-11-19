@@ -31,13 +31,19 @@
 	
 	<delete id="deleteLike" parameterType="likeDto">
 		delete from likes
-		where likeId = #{likeId}
+		where contentId = #{contentId} and userId = #{userId}
 	</delete>
 	
-	<select id="listLike" parameterType="int">
+	<select id="listLike" parameterType="int" resultType="likeDto">
 		select likeId, contentId, userId, type, createdAt
 		from likes
 		where contentId = #{contentId}
+	</select>
+	
+	<select id="checkLike" parameterType="likeDto" resultType="likeDto">
+		select likeId, contentId, userId, type, createdAt
+		from likes
+		where contentId = #{contentId} and userId = #{userId}
 	</select>
 	
 </mapper>

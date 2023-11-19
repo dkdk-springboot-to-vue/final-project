@@ -1,5 +1,7 @@
 package com.ssafy.pjt.chat.model;
 
+import java.util.List;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -22,4 +24,7 @@ public class ChatRoomDto {
     private String receiverId;
     @ApiModelProperty(value = "생성일")
     private String createdAt;
+    
+    @ApiModelProperty(value = "채팅목록")
+    private List<ChatDto> chatList;
 }

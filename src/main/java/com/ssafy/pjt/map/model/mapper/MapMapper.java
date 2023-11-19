@@ -22,5 +22,6 @@ public interface MapMapper {
 	void deleteLike(LikeDto dto) throws Exception;
 	// 좋아요 조회
 	List<LikeDto> listLike(int contentId) throws Exception;
-	
+	// 좋아요 중복체크
+	LikeDto checkLike(LikeDto dto) throws Exception;
 }

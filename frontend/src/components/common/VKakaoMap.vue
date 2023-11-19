@@ -46,7 +46,10 @@ watch(
     positions.value = [];
     props.attractions.forEach((attraction) => {
       let obj = {};
-      obj.latlng = new kakao.maps.LatLng(attraction.latitude, attraction.longitude);
+      obj.latlng = new kakao.maps.LatLng(
+        attraction.latitude,
+        attraction.longitude
+      );
       obj.title = attraction.title;
 
       positions.value.push(obj);
@@ -122,8 +125,8 @@ const deleteMarkers = () => {
 
 <style>
 #map {
-  width: 100%;
-  height: 700px;
+  /* width: 100%; */
+  height: 900px;
 }
 .wrap {
   position: absolute;
