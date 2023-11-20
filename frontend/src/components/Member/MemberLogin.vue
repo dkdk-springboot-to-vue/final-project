@@ -9,19 +9,22 @@
             </div>
 
             <div class="form-container">
+                <!-- user name -->
                 <label for="userName"><b>Username</b></label>
-                <input v-model="formData.username" type="text" placeholder="Enter Username" name="userName" required>
+                <input v-model="formData.userId" type="text" placeholder="Enter Username" name="userName" required>
 
+                <!-- user password-->
                 <label for="userPw"><b>Password</b></label>
-                <input v-model="formData.password" type="password" placeholder="Enter Password" name="userPw" required>
+                <input v-model="formData.userPw" type="password" placeholder="Enter Password" name="userPw" required>
 
+                <!-- remember check box-->
                 <div class="remember-me">
-                    <input type="checkbox" v-model="formData.remember">
-                    <label> Remember me</label>
+                    <input type="checkbox" v-model="formData.remember">Remember me
                 </div>
 
+                <!-- button-->
                 <div class="buttons">
-                    <button type="button" @click="login">Login</button>
+                    <button type="submit" @click="login">Login</button>
                     <button type="button" @click="closeLoginForm" class="cancelbtn">Cancel</button>
                 </div>
             </div>
@@ -55,23 +58,35 @@ export default {
         };
 
         const login = async () => {
-            try {
-                const response = await axios.post('http://localhost:80/api/login', {
-                    userId: formData,
-                    userPw: formData,
-                });
-
-                // 로그인 성공 로직 추가
-                console.log('Login successful', response.data);
-
-                // 성공적으로 로그인했을 때의 동작 추가
-            } catch (error) {
-                console.error('Error during login', error.response.data);
-                // 로그인 실패 로직 추가
+    try {
+        const response = await axios.post('http://localhost:80/api/member/login', {
+            auth: {
+                userId: formData.userId,
+                userPw: formData.userPw,
             }
+        });
 
-            closeLoginForm();
-        };
+        // Check if response is defined
+        if (response) {
+            // 로그인 성공
+            console.log('Login successful', response.data);
+            alert('로긴 성공 !');
+
+            // 성공적으로 로그인했을 때의 동작 추가
+        } else {
+            console.error('Empty response received');
+            // Handle the case where the response is undefined
+            alert('로긴 실패 ㅜㅜ');
+        }
+    } catch (error) {
+        console.error('Error during login', error.response ? error.response.data : error.message);
+        // 로그인 실패
+        alert('로긴 실패 ㅜㅜ');
+    }
+
+    closeLoginForm();
+};
+
 
         return {
             isLoginFormVisible,
@@ -188,25 +203,6 @@ input {
     border-radius: 5px;
 }
 
-/* Common button styling for submit and cancel */
-button[type="submit"],
-.cancelbtn {
-    width: 100%;
-    padding: 10px 18px;
-    background-color: #f44336;
-    border: none;
-    border-radius: 5px;
-    color: white;
-    cursor: pointer;
-    margin-bottom: 8px;
-    /* Added margin to the bottom */
-}
-
-button[type="submit"]:hover,
-.cancelbtn:hover {
-    opacity: 0.8;
-}
-
 /* Remember me checkbox styling */
 label input[type="checkbox"] {
     margin-top: 8px;
@@ -219,6 +215,13 @@ label input[type="checkbox"] {
     margin-bottom: 10px;
 }
 
+
+/* Common button styling for submit and cancel */
+button[type="submit"]:hover,
+.cancelbtn:hover {
+    opacity: 0.8;
+}
+
 .buttons {
     display: flex;
     justify-content: space-between;
@@ -228,5 +231,13 @@ label input[type="checkbox"] {
 .buttons button {
     width: 48%;
     /* Adjust width as needed */
+    width: 100%;
+    padding: 10px 18px;
+    background-color: #f44336;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-bottom: 8px;
 }
 </style>
