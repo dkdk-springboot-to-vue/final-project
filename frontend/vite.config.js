@@ -15,8 +15,16 @@ export default defineConfig({
     outDir: '../src/main/resources/static',
   }, // 빌드 결과물이 생성되는 경로
   server: {
+    hmr: {
+      host: 'localhost',
+      protocol: 'ws',
+    },
     proxy: {
       '/api': 'http://localhost:80',
+      '/ws': {
+        target: 'ws://localhost:80',
+        ws: true,
+      },
     }, // proxy 설정
   },
   define: {
