@@ -35,6 +35,7 @@ public class ChatServiceImpl implements ChatService {
 
 	@Override
 	public void sendChat(ChatDto dto) throws Exception {
+		System.out.println("service : "+dto );
 		mapper.sendChat(dto);
 	}
 
