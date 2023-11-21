@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ssafy.pjt.map.model.AttrLikeMemberDto;
 import com.ssafy.pjt.map.model.AttractionDto;
 import com.ssafy.pjt.map.model.LikeDto;
 import com.ssafy.pjt.map.model.SidoGugunCodeDto;
@@ -52,6 +53,25 @@ public class MapServiceImpl implements MapService {
 	    }
 		return attrlist;
 	}
+	
+
+	@Override
+	public AttractionDto getAttractionDetail(int contentId) throws Exception {
+		// TODO Auto-generated method stub
+		AttractionDto dto = mapper.getAttractionDetail(contentId);
+		List<LikeDto> likes = mapper.listLike(contentId);
+		dto.setLikes(likes);
+		int likeCount = 0;
+		int dislikeCount = 0;
+		for(LikeDto like: likes) {
+    		if(like.getType() == 1) likeCount++;
+    		else dislikeCount++;
+		}
+		dto.setLikeCount(likeCount);
+		dto.setDislikeCount(dislikeCount);
+		return dto;
+	}
+
 
 	@Override
 	public List<LikeDto> listLike(int contentId) throws Exception {
@@ -62,7 +82,7 @@ public class MapServiceImpl implements MapService {
 	public void toggleLike(LikeDto dto) throws Exception {
 		// TODO Auto-generated method stub
 		LikeDto existingLike = mapper.checkLike(dto);
-		
+		System.out.println(existingLike);
 		if(existingLike == null) {
 			// 아직 좋아요, 싫어요 안눌렀으면 등록
 			mapper.registLike(dto);
@@ -77,6 +97,13 @@ public class MapServiceImpl implements MapService {
 				throw new Exception("이미 "+ lType +"선택을 했슴");
 			}
 		}
+	}
+
+	// 좋아요 누른 유저목록
+	@Override
+	public List<AttrLikeMemberDto> listAttrLikeMember(int contentId) throws Exception {
+		// TODO Auto-generated method stub
+		return mapper.listAttrLikeMember(contentId);
 	}
 
 }

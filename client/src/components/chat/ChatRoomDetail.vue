@@ -70,7 +70,7 @@ const connection = () => {
     (frame) => {
       connected = true;
       console.log('소켓 연결 성공', frame);
-      stompClient.subscribe('/pub/chat/1', (res) => {
+      stompClient.subscribe('/sub/chat/1', (res) => {
         console.log('구독으로 받은 메시지 입니다.', res.body);
         recvList.value.push(JSON.parse(res.body));
       });
@@ -103,6 +103,9 @@ function onSubmit() {
 </script>
 
 <template>
+  <div v-for="chat in recvList" :key="chat.chatId">
+    <div>{{ chat.userId }} : {{ chat.content }}</div>
+  </div>
   <div>
     <button @click="connection()">버튼</button>
   </div>
