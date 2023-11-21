@@ -11,23 +11,11 @@
       <div class="form-container">
         <!-- user name -->
         <label for="userName"><b>Username</b></label>
-        <input
-          v-model="formData.userId"
-          type="text"
-          placeholder="Enter Username"
-          name="userName"
-          required
-        />
+        <input v-model="formData.userId" type="text" placeholder="Enter Username" name="userName" required />
 
         <!-- user password-->
         <label for="userPw"><b>Password</b></label>
-        <input
-          v-model="formData.userPw"
-          type="password"
-          placeholder="Enter Password"
-          name="userPw"
-          required
-        />
+        <input v-model="formData.userPw" type="password" placeholder="Enter Password" name="userPw" required />
 
         <!-- remember check box-->
         <div class="remember-me">
@@ -71,11 +59,9 @@ export default {
 
     const login = async () => {
       try {
-        const response = await axios.post('http://localhost:80/api/member/login', {
-          auth: {
-            userId: formData.value.userId,
-            userPw: formData.value.userPw,
-          },
+        const response = axios.post('http://localhost:80/api/member/login', {
+          userId: formData.value.userId,
+          userPw: formData.value.userPw,
         });
 
         // Check if response is defined

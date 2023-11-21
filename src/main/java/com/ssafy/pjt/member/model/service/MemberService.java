@@ -15,13 +15,9 @@ public interface MemberService {
 	public MemberDto detailMember(String id) throws Exception;
 	// 회원탈퇴
 	public void deleteMember(String id) throws Exception;
-	
-	
 	// 로그인
-	MemberDto login(MemberDto memberDto) throws Exception;
-	MemberDto userInfo(String userId) throws Exception;
-	void saveRefreshToken(String userId, String refreshToken) throws Exception;
-	Object getRefreshToken(String userId) throws Exception;
-	void deleRefreshToken(String userId) throws Exception;
+	public MemberDto login(MemberDto dto) throws Exception;
 	// 로그아웃 -> 컨트롤러에서 구현 
+	// 비밀번호 찾기 
+	public String findPw(String id) throws Exception;
 }
