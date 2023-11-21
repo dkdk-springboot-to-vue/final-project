@@ -24,6 +24,4 @@ public class MemberDto {
 	private String email;
 	@ApiModelProperty(value = "가입일")
 	private String createdAt;
-	@ApiModelProperty(value = "refreshToken")
-	private String refreshToken;
 }

@@ -1,5 +1,12 @@
 {
   "dependencies": {
-    "axios": "^1.6.2"
+    "axios": "^1.6.2",
+    "vue-router": "^4.0.13"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.23.3",
+    "@babel/preset-env": "^7.23.3",
+    "@babel/preset-react": "^7.23.3",
+    "eslint-plugin-babel": "^5.3.1"
   }
 }
