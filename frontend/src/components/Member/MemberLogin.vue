@@ -10,8 +10,8 @@
 
             <div class="form-container">
                 <!-- user name -->
-                <label for="userName"><b>Username</b></label>
-                <input v-model="formData.userId" type="text" placeholder="Enter Username" name="userName" required>
+                <label for="userId"><b>ID</b></label>
+                <input v-model="formData.userId" type="text" placeholder="Enter Username" name="userId" required>
 
                 <!-- user password-->
                 <label for="userPw"><b>Password</b></label>
@@ -59,34 +59,32 @@ export default {
 
         const login = async () => {
     try {
-        const response = await axios.post('http://localhost:80/api/member/login', {
-            auth: {
-                userId: formData.userId,
-                userPw: formData.userPw,
-            }
+        const response = axios.post('http://localhost:80/api/member/login', {
+            userId: formData.value.userId,
+            userPw: formData.value.userPw,
         });
 
-        // Check if response is defined
+        // 응답이 정의되어 있는지 확인
         if (response) {
             // 로그인 성공
-            console.log('Login successful', response.data);
-            alert('로긴 성공 !');
+            console.log('로그인 성공', response.data);
+            alert('로그인 성공! 홈 화면으로 이동합니다.');
 
             // 성공적으로 로그인했을 때의 동작 추가
+            // 예: 라우터를 사용하여 다른 페이지로 이동
+            // router.push('/');
         } else {
-            console.error('Empty response received');
-            // Handle the case where the response is undefined
-            alert('로긴 실패 ㅜㅜ');
+            console.error('빈 응답을 받음');
+            // 응답이 정의되지 않은 경우 처리
+            alert('트라이 블록 내에서 로그인 실패 ㅜㅜ');
         }
     } catch (error) {
-        console.error('Error during login', error.response ? error.response.data : error.message);
+        console.error('로그인 중 오류', error.response ? error.response.data : error.message);
         // 로그인 실패
-        alert('로긴 실패 ㅜㅜ');
+        alert('로그인 실패 ㅜㅜ');
     }
-
     closeLoginForm();
 };
-
 
         return {
             isLoginFormVisible,

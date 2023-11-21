@@ -54,7 +54,7 @@ export default {
             }
 
             try {
-                const response = await axios.post('http://localhost:80/api/member', {
+                const response = axios.post('http://localhost:80/api/member', {
                     userId: formData.value.userId,
                     userName: formData.value.userName,
                     email: formData.value.email,
@@ -66,17 +66,9 @@ export default {
             } catch (error) {
                 console.error('Error registering', error);
                 if (error.response) {
-            // 서버 응답이 올 경우
-            console.error('Server responded with:', error.response.data);
-        } else if (error.request) {
-            // 요청은 보냈지만 응답이 없는 경우
-            console.error('No response received');
-        } else {
-            // 오류 요청 전에 발생한 경우
-            console.error('Error before sending request', error.message);
-        }
+                    alert('이미 있음');
 
-        alert('이미 있음');
+                }
             }
         };
 

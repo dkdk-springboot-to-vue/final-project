@@ -1,19 +1,19 @@
 <template>
-  <div>
-    <div class="topnav">
-      <!-- Home Link -->
-      <router-link to="/" :class="{ active: isRouteActive('/') }"
+    <div>
+        <div class="topnav">
+            <!-- Home Link -->
+            <router-link to="/" :class="{ active: isRouteActive('/') }"
         >Home</router-link
       >
 
-      <!-- Map Link -->
-      <router-link
+            <!-- Map Link -->
+            <router-link
         :to="{ name: 'attractions' }"
         :class="{ active: isRouteActive('/') }"
         >Map</router-link
       >
 
-      <!-- chat link-->
+            <!-- chat link-->
       <router-link
         :to="{ name: 'chatroom-list' }"
         :class="{ active: isRouteActive('/') }"
@@ -21,79 +21,79 @@
       >
 
       <!-- Spacer to push Login and Register to the right -->
-      <div class="spacer"></div>
+            <div class="spacer"></div>
 
-      <!-- Login Link -->
-      <router-link
+            <!-- Login Link -->
+            <router-link
         to="/MemberLogin"
         :class="{ active: isRouteActive('/MemberLogin') }"
         >Login</router-link
       >
 
-      <!-- Register Link -->
-      <router-link
+            <!-- Register Link -->
+            <router-link
         to="/MemberRegister"
         :class="{ active: isRouteActive('/MemberRegister') }"
         >Register</router-link
       >
+        </div>
+        <!-- <router-view></router-view> -->
     </div>
-    <!-- <router-view></router-view> -->
-  </div>
 </template>
 
 <script>
 import { useRoute } from 'vue-router';
 
 export default {
-  setup() {
-    const route = useRoute();
+    setup() {
+        const route = useRoute();
 
-    const isRouteActive = (path) => {
-      // Check if the current route path starts with the specified path
-      return route.path.startsWith(path);
-    };
+        const isRouteActive = (path) => {
+            // Check if the current route path starts with the specified path
+            return route.path.startsWith(path);
+        };
 
-    return {
-      isRouteActive,
-    };
-  },
+        return {
+            isRouteActive,
+        };
+    },
 };
 </script>
 
 <style>
 body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .topnav {
-  overflow: hidden;
-  background-color: #2089ef;
-  display: flex;
-  /* Use flexbox to arrange items horizontally */
+    overflow: hidden;
+    background-color: #2089EF;
+    display: flex;
+    /* Use flexbox to arrange items horizontally */
 }
 
 .topnav a {
-  float: left;
-  color: #f2f2f2;
-  text-align: center;
-  padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
 }
 
 .topnav .spacer {
-  flex: 1;
-  /* Flex grow property to push Login and Register to the right */
+    flex: 1;
+    /* Flex grow property to push Login and Register to the right */
 }
 
 .topnav a:hover {
-  background-color: #ddd;
-  color: black;
+    background-color: #ddd;
+    color: black;
 }
 
 .topnav a.active {
-  background-color: #04aa6d;
-  color: white;
+    background-color: #04aa6d;
+    color: white;
 }
 </style>
