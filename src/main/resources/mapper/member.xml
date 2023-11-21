@@ -32,17 +32,40 @@
 		delete from members
 		where userId = #{userId}
 	</delete>
-	
-	<select id="login" parameterType="memberDto" resultType="memberDto">
-	  	select userName, userId, userPw, email, createdAt
- 		from members
- 		where userId = #{userId}
- 		and userPw = #{userPw} 
-  	</select>
   	
   	<select id="findPw" parameterType="String" resultType="String">
   		select userPw
   		from members
   		where userId= #{userId}
   	</select>
+  	
+  		<select id="login" parameterType="map" resultMap="member">
+		select userId, userName, token
+		from members
+		where userId = #{userId} and userPw = #{userPw}
+	</select>
+	
+	<select id="userInfo" parameterType="string" resultMap="member">
+		select userName, userId, email
+		from members
+		where userId = #{userId}
+	</select>
+	
+	<update id="saveRefreshToken" parameterType="map">
+		update members
+		set token = #{token}
+		where userId = #{userId}
+	</update>
+	
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from members
+		where userId = #{userId}
+	</select>
+	
+	<update id="deleteRefreshToken" parameterType="map">
+		update members
+		set token = #{token, jdbcType=VARCHAR}
+		where userId = #{userId}
+	</update>
 </mapper>
