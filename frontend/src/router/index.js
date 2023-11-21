@@ -5,7 +5,7 @@ import MemberRegister from '../components/Member/MemberRegister.vue';
 
 const routes = [
   {
-    path: '/',
+path: '/',
     name: 'Home',
     // component: Home,
   },
@@ -15,11 +15,11 @@ const routes = [
     component: MemberLogin,
   },
   {
-    path: '/MemberRegister',
+    path: '/MemberRegister', 
     name: 'MemberRegister',
     component: MemberRegister,
   },
-  {
+{
     path: '/attractions',
     name: 'attractions',
     component: () => import('@/views/TheAttractionView.vue'),
