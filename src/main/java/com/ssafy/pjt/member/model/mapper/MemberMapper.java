@@ -1,5 +1,7 @@
 package com.ssafy.pjt.member.model.mapper;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 import com.ssafy.pjt.member.model.MemberDto;
@@ -16,7 +18,14 @@ public interface MemberMapper {
 	public MemberDto detailMember(String id) throws Exception;
 	// 회원탈퇴
 	public void deleteMember(String id) throws Exception;
+	
+	
+	
 	// 로그인
-	public MemberDto login(MemberDto dto) throws Exception;
+	MemberDto login(MemberDto memberDto) throws SQLException;
+	MemberDto userInfo(String userId) throws SQLException;
+	void saveRefreshToken(Map<String, String> map) throws SQLException;
+	Object getRefreshToken(String userid) throws SQLException;
+	void deleteRefreshToken(Map<String, String> map) throws SQLException;
 	// 로그아웃 -> 컨트롤러에서 구현 
 }
