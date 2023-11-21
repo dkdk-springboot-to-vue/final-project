@@ -24,6 +24,13 @@
 		where sido_code = #{sido_code} and gugun_code = #{gugun_code}
 	</select>
 	
+	<select id="getAttractionDetail" parameterType="int" resultType="attractionDto">
+		select content_id, content_type_id, title, addr1, zipcode, tel, first_image, first_image2, 
+			   readcount, sido_code, gugun_code, latitude, longitude, mlevel
+		from attraction_info
+		where content_id = #{content_id}
+	</select>
+	
 	<insert id="registLike" parameterType="likeDto">
 		insert into likes (contentId, userId, type)
 		values (#{contentId}, #{userId}, #{type})
@@ -35,15 +42,24 @@
 	</delete>
 	
 	<select id="listLike" parameterType="int" resultType="likeDto">
-		select likeId, contentId, userId, type, createdAt
+		select contentId, userId, type, createdAt
 		from likes
 		where contentId = #{contentId}
 	</select>
 	
 	<select id="checkLike" parameterType="likeDto" resultType="likeDto">
-		select likeId, contentId, userId, type, createdAt
+		select contentId, userId, type, createdAt
 		from likes
 		where contentId = #{contentId} and userId = #{userId}
+	</select>
+	
+	<select id="listAttrLikeMember" parameterType="int" resultType="attrLikeMemberDto">
+		SELECT Attraction.title, LikeInfo.contentId AS likeContentId, LikeInfo.userId AS likeUserId, 
+				Member.userName AS likeUserName, LikeInfo.type
+		FROM attraction_info AS Attraction
+		INNER JOIN likes AS LikeInfo ON Attraction.content_id = LikeInfo.contentId
+		INNER JOIN members AS Member ON LikeInfo.userId = Member.userId
+		WHERE Attraction.content_id = ${content_id};
 	</select>
 	
 </mapper>

@@ -15,4 +15,16 @@ function listAttr(attr, success, fail) {
   local.post(`${url}/mapview`, attr).then(success).catch(fail);
 }
 
-export { listSido, listGugun, listAttr };
+function detailAttr(content_id, success, fail) {
+  local.get(`${url}/attr/${content_id}`).then(success).catch(fail);
+}
+
+function toggleLike(likeDto, success, fail) {
+  local.post(`${url}/like`, likeDto).then(success).catch(fail);
+}
+
+function listAttrLikeMember(content_id, success, fail) {
+  local.get(`${url}/attr/like/${content_id}`).then(success).catch(fail);
+}
+
+export { listSido, listGugun, listAttr, detailAttr, toggleLike, listAttrLikeMember };

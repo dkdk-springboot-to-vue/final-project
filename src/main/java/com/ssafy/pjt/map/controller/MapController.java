@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.pjt.map.model.AttrLikeMemberDto;
 import com.ssafy.pjt.map.model.AttractionDto;
 import com.ssafy.pjt.map.model.LikeDto;
 import com.ssafy.pjt.map.model.SidoGugunCodeDto;
@@ -81,6 +83,20 @@ public class MapController {
 
 	}
 	
+	@ApiOperation(value = "관광지 상세정보 조회", notes = "광광지 상새정보 조회")
+	@GetMapping("/attr/{contentId}")
+	public ResponseEntity<?> getAttrDetail(@PathVariable("contentId") @ApiParam(value = "조회할 정보 아이디", required = true) int contentId) {
+		log.info("getAttrList - 호출 - {}", contentId);
+		try {
+			AttractionDto dto = service.getAttractionDetail(contentId);
+			return new ResponseEntity<AttractionDto>(dto, HttpStatus.CREATED);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return exceptionHandling(e);
+		}
+
+	}
+	
 	@ApiOperation(value = "좋아요 등록, 취소", notes = "좋아요, 싫어요를 등록/취소하고 서로 다른 감정표현이 동시에 등록되지 않게")
 	@PostMapping(value = "like")
 	public ResponseEntity<?> toggleLike(@RequestBody LikeDto dto) {
@@ -94,6 +110,21 @@ public class MapController {
 			e.printStackTrace();
 			return exceptionHandling(e);
 		}
+	}
+	
+	@ApiOperation(value = "관광지 상세정보 조회", notes = "광광지 상새정보 조회")
+	@GetMapping("/attr/like/{contentId}")
+	public ResponseEntity<?> listAttrLikeMember(@PathVariable("contentId") @ApiParam(value = "조회할 관광지 아이디", required = true) int contentId) {
+		log.info("listAttrLikeMember - 호출 - {}", contentId);
+		
+		try {
+			List<AttrLikeMemberDto> list = service.listAttrLikeMember(contentId);
+			return new ResponseEntity<List<AttrLikeMemberDto>>(list, HttpStatus.CREATED);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return exceptionHandling(e);
+		}
+
 	}
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {

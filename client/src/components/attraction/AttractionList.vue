@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue';
 import { listSido, listGugun, listAttr } from '@/api/map';
 
 import AttractionListItem from '@/components/attraction/item/AttractionListItem.vue';
+import AttractionDetail from '@/components/attraction/AttractionDetail.vue';
 
 import VKakaoMap from '@/components/common/VKakaoMap.vue';
 import VSelect from '@/components/common/VSelect.vue';
@@ -78,6 +79,7 @@ const getAttractions = () => {
 };
 
 const viewAttr = (attr) => {
+  console.log(attr);
   selectAttraction.value = attr;
 };
 </script>
@@ -93,8 +95,11 @@ const viewAttr = (attr) => {
         <VSelect :selectOption="gugunList" @onKeySelect="onChangeGugun" />
       </div>
     </div>
-    <div class="row">
-      <div class="col-10">
+    <div class="row" id="map-attraction">
+      <div class="col-2" id="attraction-scroll">
+        <AttractionDetail :selectAttraction="selectAttraction" />
+      </div>
+      <div class="col-8">
         <VKakaoMap :attractions="attractions" :selectAttraction="selectAttraction" />
       </div>
       <div class="col-2" id="attraction-scroll">
@@ -128,8 +133,12 @@ mark.purple {
   background: linear-gradient(to top, #c354ff 20%, transparent 30%);
 }
 
+#map-attraction {
+  height: 700px;
+}
+
 #attraction-scroll {
-  height: 900px;
+  height: 100%;
   overflow: auto;
 }
 </style>

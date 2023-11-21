@@ -77,7 +77,7 @@ const loadMarkers = () => {
 
   // 마커를 생성합니다
   markers.value = [];
-  positions.value.forEach((position) => {
+  positions.value.forEach((position, index) => {
     const marker = new kakao.maps.Marker({
       map: map, // 마커를 표시할 지도
       position: position.latlng, // 마커를 표시할 위치
@@ -92,7 +92,9 @@ const loadMarkers = () => {
     kakao.maps.event.addListener(marker, 'click', function () {
       // 마커 위에 인포윈도우를 표시합니다
       //   infowindow.open(map, marker);
-
+      closeOverlay();
+      const content = generateOverlayContent(props.attractions[index]);
+      displayOverlay(marker.getPosition(), content);
       console.log('마커클릭');
     });
   });
@@ -112,6 +114,84 @@ const deleteMarkers = () => {
     markers.value.forEach((marker) => marker.setMap(null));
   }
 };
+
+// 오버레이
+const generateOverlayContent = (attraction) => {
+  const wrap = document.createElement('div');
+  wrap.classList.add('wrap');
+
+  const info = document.createElement('div');
+  info.classList.add('info');
+
+  const title = document.createElement('div');
+  title.classList.add('title');
+  title.textContent = attraction.title;
+
+  const close = document.createElement('div');
+  close.classList.add('close');
+  close.setAttribute('title', '닫기');
+  close.addEventListener('click', closeOverlay); // closeOverlay 함수를 클릭 이벤트에 연결
+
+  const body = document.createElement('div');
+  body.classList.add('body');
+
+  const img = document.createElement('div');
+  img.classList.add('img');
+
+  const image = document.createElement('img');
+  image.setAttribute('src', attraction.first_image);
+  image.setAttribute('width', '73');
+  image.setAttribute('height', '70');
+
+  const desc = document.createElement('div');
+  desc.classList.add('desc');
+
+  const address = document.createElement('div');
+  address.classList.add('ellipsis');
+  address.textContent = attraction.addr1;
+
+  const postalCode = document.createElement('div');
+  postalCode.classList.add('jibun', 'ellipsis');
+  postalCode.textContent = attraction.postalCode;
+
+  desc.appendChild(address);
+  desc.appendChild(postalCode);
+
+  img.appendChild(image);
+
+  title.appendChild(close);
+
+  body.appendChild(img);
+  body.appendChild(desc);
+
+  info.appendChild(title);
+  info.appendChild(body);
+
+  wrap.appendChild(info);
+
+  return wrap;
+};
+
+let overlay = null; // 초기값을 null로 설정하여 초기화
+
+const displayOverlay = (position, content) => {
+  // 기존 overlay가 있다면 제거
+  if (overlay) {
+    overlay.setMap(null);
+  }
+
+  overlay = new kakao.maps.CustomOverlay({
+    content: content,
+    map: map,
+    position: position,
+  });
+};
+
+const closeOverlay = () => {
+  if (overlay) {
+    overlay.setMap(null);
+  }
+};
 </script>
 
 <template>
@@ -121,7 +201,7 @@ const deleteMarkers = () => {
 <style>
 #map {
   /* width: 100%; */
-  height: 900px;
+  height: 100%;
 }
 .wrap {
   position: absolute;

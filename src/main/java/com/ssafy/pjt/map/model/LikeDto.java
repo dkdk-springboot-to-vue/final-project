@@ -14,8 +14,6 @@ import lombok.ToString;
 @ApiModel(value = "LikeDto : 좋아요 정보", description = "좋아요 정보를 나타낸다.")
 public class LikeDto {
 
-    @ApiModelProperty(value = "좋아요 ID")
-    private int likeId;
     @ApiModelProperty(value = "컨텐츠 ID")
     private int contentId;
     @ApiModelProperty(value = "사용자 ID")
