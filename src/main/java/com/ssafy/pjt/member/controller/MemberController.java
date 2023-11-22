@@ -103,10 +103,8 @@ public class MemberController {
 //		MemberDto dto = new MemberDto();
 //		dto.setUserId(userId);
 //		dto.setUserPass(userPass);
-		System.out.println(dto);
 		try {
 			MemberDto loginDto = service.login(dto);
-			System.out.println(loginDto);
 			if(loginDto != null) {
 				request.getSession().setAttribute("userInfo", loginDto.getUserId());
 				return new ResponseEntity<MemberDto>(loginDto, HttpStatus.OK);

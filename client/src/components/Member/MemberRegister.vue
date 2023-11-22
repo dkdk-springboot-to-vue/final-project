@@ -9,13 +9,15 @@
             <input type="text" v-model="formData.userId" placeholder="Enter User ID" name="userId" id="userId" required>
 
             <label for="userName"><b>User Name</b></label>
-            <input type="text" v-model="formData.userName" placeholder="Enter User Name" name="userName" id="userName" required>
+            <input type="text" v-model="formData.userName" placeholder="Enter User Name" name="userName" id="userName"
+                required>
 
             <label for="email"><b>Email</b></label>
             <input type="text" v-model="formData.email" placeholder="Enter Email" name="email" id="email" required>
 
             <label for="userPw"><b>Password</b></label>
-            <input type="password" v-model="formData.userPw" placeholder="Enter Password" name="userPw" id="userPw" required>
+            <input type="password" v-model="formData.userPw" placeholder="Enter Password" name="userPw" id="userPw"
+                required>
 
             <label for="passwordRepeat"><b>Repeat Password</b></label>
             <input type="password" v-model="formData.passwordRepeat" placeholder="Repeat Password" name="passwordRepeat"
@@ -66,17 +68,17 @@ export default {
             } catch (error) {
                 console.error('Error registering', error);
                 if (error.response) {
-            // 서버 응답이 올 경우
-            console.error('Server responded with:', error.response.data);
-        } else if (error.request) {
-            // 요청은 보냈지만 응답이 없는 경우
-            console.error('No response received');
-        } else {
-            // 오류 요청 전에 발생한 경우
-            console.error('Error before sending request', error.message);
-        }
+                    // 서버 응답이 올 경우
+                    console.error('Server responded with:', error.response.data);
+                } else if (error.request) {
+                    // 요청은 보냈지만 응답이 없는 경우
+                    console.error('No response received');
+                } else {
+                    // 오류 요청 전에 발생한 경우
+                    console.error('Error before sending request', error.message);
+                }
 
-        alert('이미 있음');
+                alert('이미 있음');
             }
         };
 
