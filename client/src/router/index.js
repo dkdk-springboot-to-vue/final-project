@@ -1,28 +1,27 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router';
 // import Home from "../views/Home.vue";
-import MemberLogin from "../components/Member/MemberLogin.vue";
-import MemberRegister from "../components/Member/MemberRegister.vue";
-import MemberPage from "../components/Member/MemberPage.vue";
+import MemberLogin from '../components/Member/MemberLogin.vue';
+import MemberRegister from '../components/Member/MemberRegister.vue';
+import MemberPage from '../components/Member/MemberPage.vue';
 
 const routes = [
   {
     path: "/",
     name: "Home",
-    // component: TheMainView,
   },
   {
-    path: "/MemberLogin",
-    name: "MemberLogin",
+    path: '/MemberLogin',
+    name: 'MemberLogin',
     component: MemberLogin,
   },
   {
-    path: "/MemberRegister",
-    name: "MemberRegister",
+    path: '/MemberRegister',
+    name: 'MemberRegister',
     component: MemberRegister,
   },
   {
-    path: "/MemberPage",
-    name: "MemberPage",
+    path: '/MemberPage',
+    name: 'MemberPage',
     component: MemberPage,
   },
 
@@ -56,32 +55,32 @@ const routes = [
   },
 
   {
-    path: "/attractions",
-    name: "attractions",
-    component: () => import("@/views/TheAttractionView.vue"),
-    redirect: { name: "attraction-list" },
+    path: '/attractions',
+    name: 'attractions',
+    component: () => import('@/views/TheAttractionView.vue'),
+    redirect: { name: 'attraction-list' },
     children: [
       {
-        path: "list",
-        name: "attraction-list",
-        component: () => import("@/components/attraction/AttractionList.vue"),
+        path: 'list',
+        name: 'attraction-list',
+        component: () => import('@/components/attraction/AttractionList.vue'),
       },
     ],
   },
   {
-    path: "/chat",
-    name: "chat",
-    component: () => import("@/views/TheChatView.vue"),
+    path: '/chat',
+    name: 'chat',
+    component: () => import('@/views/TheChatView.vue'),
     children: [
       {
-        path: "list",
-        name: "chatroom-list",
-        component: () => import("@/components/chat/ChatRoomList.vue"),
+        path: 'list',
+        name: 'chatroom-list',
+        component: () => import('@/components/chat/ChatRoomList.vue'),
       },
       {
-        path: "detail/:roomid",
-        name: "detail-chatroom",
-        component: () => import("@/components/chat/ChatRoomDetail.vue"),
+        path: 'detail/:roomid',
+        name: 'detail-chatroom',
+        component: () => import('@/components/chat/ChatRoomDetail.vue'),
       },
     ],
   },

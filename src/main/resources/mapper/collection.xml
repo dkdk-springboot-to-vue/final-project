@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.ssafy.pjt.collection.model.mapper.CollectionMapper" >
+
+	<!-- listCollection -->
+	<select id="listCollection" parameterType="String" resultType="collectionDto">
+	    SELECT cId, userId, title, createdAt 
+	    FROM collections 
+	    WHERE userId = #{userId}
+	</select>
+	
+	<!-- registCollection -->
+	<insert id="registCollection" parameterType="collectionDto">
+	    INSERT INTO collections (userId, title) 
+	    VALUES (#{userId}, #{title})
+	</insert>
+	
+	<!-- detailCollection -->
+	<select id="detailCollection" parameterType="int" resultType="collectionDto">
+	    SELECT cId, userId, title, createdAt 
+	    FROM collections 
+	    WHERE cId = #{cId}
+	</select>
+	
+	<!-- deleteCollection -->
+	<delete id="deleteCollection" parameterType="int">
+	    DELETE FROM collections 
+	    WHERE cId = #{cId}
+	</delete>
+	
+	<update id="updateCollection" parameterType="collectionDto">
+	    UPDATE collections
+	    SET title = #{title}
+	    WHERE cId = #{cId}
+	</update>
+	
+	<!-- listBookmark -->
+	<select id="listBookmark" parameterType="int" resultType="bookmarkDto">
+	    SELECT savedId, cId, contentId, userId, title, createdAt
+	    FROM bookmarks 
+	    WHERE cId = #{cId}
+	</select>
+	
+	<!-- registBookmark -->
+	<insert id="registBookmark" parameterType="bookmarkDto">
+	    INSERT INTO bookmarks (cId, contentId, userId, title) 
+	    VALUES (#{cId}, #{contentId}, #{userId}, #{title})
+	</insert>
+	
+	<!-- deleteBookmark -->
+	<delete id="deleteBookmark" parameterType="int">
+	    DELETE FROM bookmarks 
+	    WHERE savedId = #{savedId}
+	</delete>
+
+</mapper>

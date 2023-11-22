@@ -1,16 +1,13 @@
 <script setup>
+import bootstrap from 'bootstrap';
 import { ref, defineProps, onMounted, watch } from 'vue';
 import { listAttrLikeMember } from '@/api/map';
 
 import AttractionLikeListItem from '@/components/attraction/item/AttractionLikeListItem.vue';
 
-const props = defineProps({ type: Number, content_id: Number });
+const props = defineProps({ type: Number, content_id: Number, checkChange: Array });
 
 const ratedMembers = ref([]);
-
-onMounted(() => {
-  getAttrLikeMemberList();
-});
 
 const getAttrLikeMemberList = () => {
   console.log('========getattrmemlist====');
@@ -37,18 +34,18 @@ onMounted(() => {
 });
 
 watch(
-  () => props.type, // content_id의 변화를 감지
+  [() => props.type, () => props.content_id, () => props.checkChange], // type과 content_id의 변화를 감지
   () => {
-    getAttrLikeMemberList(); // content_id가 변경될 때마다 데이터를 다시 가져오기
+    getAttrLikeMemberList(); // type 혹은 content_id가 변경될 때마다 데이터를 다시 가져오기
   }
 );
 
-watch(
-  () => props.content_id, // content_id의 변화를 감지
-  () => {
-    getAttrLikeMemberList(); // content_id가 변경될 때마다 데이터를 다시 가져오기
-  }
-);
+// modal 제어 - 실패
+// const showModal = ref(false);
+// const closeModal = () => {
+//   var myModal = new bootstrap.Modal(document.getElementById('emoteModal'), {});
+//   myModal.hide();
+// };
 </script>
 
 <template>
@@ -58,12 +55,14 @@ watch(
     tabindex="-1"
     aria-labelledby="emoteModalLabel"
     aria-hidden="true"
+    :v-model="showModal"
   >
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="emoteModalLabel">
-            <template v-if="props.type"> </template>
+            <template v-if="props.type == 1">좋아요 목록</template>
+            <template v-else="props.type">싫어요 목록</template>
           </h1>
           <button
             type="button"
@@ -73,13 +72,14 @@ watch(
           ></button>
         </div>
         <div class="modal-body" id="modal-scroll">
-          <div v-for="mem in ratedMembers" :key="mem.userId">
-            {{ mem.likeUserId }}
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <AttractionLikeListItem
+            v-for="mem in ratedMembers"
+            :key="mem.userId"
+            :mem="mem"
+            :contentId="props.content_id"
+            :show-modal="showModal"
+          >
+          </AttractionLikeListItem>
         </div>
       </div>
     </div>

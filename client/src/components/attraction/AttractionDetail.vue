@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, watch } from 'vue';
+import { ref, defineProps, watch, onMounted } from 'vue';
 import { toggleLike, detailAttr } from '@/api/map';
 
 import AttractionLikeList from '@/components/attraction/AttractionLikeList.vue';
@@ -17,6 +17,7 @@ const likeInfo = ref({
 });
 
 const state = ref(0);
+const checkChange = ref(0);
 
 const openModal = (type) => {
   console.log('openModal ::: ' + type);
@@ -36,6 +37,10 @@ const fetchAttractionDetails = () => {
   );
 };
 
+onMounted(() => {
+  fetchAttractionDetails();
+});
+
 // selectAttraction이 변경될 때마다 좋아요 및 싫어요 카운트를 최신화
 watch(
   () => props.selectAttraction,
@@ -52,10 +57,12 @@ const registEmote = (val) => {
     likeDto.value,
     ({ data }) => {
       // 좋아요/싫어요 토글 성공 시 관광지 정보 다시 가져오기
+      checkChange.value = data;
       fetchAttractionDetails();
     },
     (error) => {
       console.log(error);
+      alert(error.response.data);
     }
   );
 };
@@ -63,7 +70,13 @@ const registEmote = (val) => {
 
 <template>
   <div>
-    {{ selectAttraction }}
+    <h3>
+      {{ selectAttraction.title }}
+    </h3>
+    <div>{{ selectAttraction.content_id }}</div>
+    <div>
+      <img :src="selectAttraction.first_image" alt="attr_image" />
+    </div>
   </div>
 
   <button @click="registEmote(1)">좋아요 : {{ likeInfo.likeCount }}</button>
@@ -88,7 +101,15 @@ const registEmote = (val) => {
     싫어요리스트
   </button>
 
-  <AttractionLikeList :content_id="selectAttraction.content_id" :type="state" />
+  <div>
+    <button class="btn btn-primary">찜하기</button>
+  </div>
+
+  <AttractionLikeList
+    :content_id="selectAttraction.content_id"
+    :type="state"
+    :checkChange="checkChange"
+  />
 </template>
 
 <style scoped></style>

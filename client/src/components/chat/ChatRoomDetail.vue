@@ -4,11 +4,12 @@ import SockJs from 'sockjs-client';
 // import * as StompJs from '@stomp/stompjs';
 
 import { ref, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 import { detailRoom } from '@/api/chat';
 
 const route = useRoute();
+const router = useRouter();
 
 const { roomid } = route.params;
 console.log('roomId : ' + roomid);
@@ -34,6 +35,7 @@ const getChatRoom = () => {
   detailRoom(roomid, ({ data }) => {
     console.log(data);
     chatroom.value = data;
+    recvList.value = data.chatList;
   });
 };
 
@@ -70,7 +72,7 @@ const connection = () => {
     (frame) => {
       connected = true;
       console.log('소켓 연결 성공', frame);
-      stompClient.subscribe('/sub/chat/1', (res) => {
+      stompClient.subscribe(`/sub/chat/${roomid}`, (res) => {
         console.log('구독으로 받은 메시지 입니다.', res.body);
         recvList.value.push(JSON.parse(res.body));
       });

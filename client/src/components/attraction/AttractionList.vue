@@ -97,7 +97,10 @@ const viewAttr = (attr) => {
     </div>
     <div class="row" id="map-attraction">
       <div class="col-2" id="attraction-scroll">
-        <AttractionDetail :selectAttraction="selectAttraction" />
+        <AttractionDetail
+          v-if="Object.keys(selectAttraction).length > 0"
+          :selectAttraction="selectAttraction"
+        />
       </div>
       <div class="col-8">
         <VKakaoMap :attractions="attractions" :selectAttraction="selectAttraction" />
@@ -110,8 +113,6 @@ const viewAttr = (attr) => {
               <th scope="col">주소</th>
               <th scope="col"></th>
               <th scope="col">위치</th>
-              <th scope="col">위도</th>
-              <th scope="col">경도</th>
             </tr>
           </thead>
           <tbody>

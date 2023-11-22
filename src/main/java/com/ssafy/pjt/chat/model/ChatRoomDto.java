@@ -18,10 +18,14 @@ public class ChatRoomDto {
 
     @ApiModelProperty(value = "채팅방 ID")
     private int roomId;
+    @ApiModelProperty(value = "관광지 ID")
+    private int contentId;
     @ApiModelProperty(value = "송신자 ID")
     private String senderId;
     @ApiModelProperty(value = "수신자 ID")
     private String receiverId;
+    @ApiModelProperty(value = "최근 메시지")
+    private String recentMessage;
     @ApiModelProperty(value = "생성일")
     private String createdAt;
     

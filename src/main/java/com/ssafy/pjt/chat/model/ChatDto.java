@@ -23,6 +23,8 @@ public class ChatDto {
     private String userId;
     @ApiModelProperty(value = "내용")
     private String content;
+    @ApiModelProperty(value = "조회여부 : 1=true, 0=false / default 0")
+    private int isRead;
     @ApiModelProperty(value = "생성일")
     private String createdAt;
     
