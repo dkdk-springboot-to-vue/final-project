@@ -1,32 +1,29 @@
 <template>
     <div class="my-page">
         <div class="buttons-container">
-            <button class="nav-button">Profile</button>
-            <button class="nav-button">Saved</button>
-            <button class="nav-button">Chat</button>
+            <button class="nav-button button-all">Profile</button>
+            <button class="nav-button button-all">Saved</button>
+            <button class="nav-button button-all">Chat</button>
         </div>
         <div class="card">
             <img :src="profile.imageUrl" class="avatar" alt="프로필사진">
-            <h1>{{ userName }}</h1>
-            <p class="title">{{ profile.position }}</p>
-            <p>{{ profile.education }}</p>
 
             <div class="form-container">
+                <h1>{{ userName }}</h1>
                 <label for="userId"><b>ID</b></label>
-                <input v-model="formData.userId" name="userId" id="userId" required>
-
+                {{ profile.userId }}
                 <label for="userPw"><b>Password</b></label>
-                <input type="password" v-model="formData.userPw" name="userPw" id="userPw" required>
-
+                {{ profile.userPw }}
                 <label for="email"><b>Email</b></label>
-                <input v-model="formData.email" name="email" id="email" required>
+                {{ profile.email }}
             </div>
 
-            <button @click="contact">수정하기</button>
+            <button @click="contact" class="button-all">수정하기</button>
         </div>
     </div>
 </template>
-  
+
+
 <script>
 import { ref } from 'vue';
 
@@ -35,15 +32,10 @@ export default {
         const userName = ref('현진');
 
         const profile = ref({
-            position: '취준생',
-            education: '싸피생',
+            userId: 'ssafy',
+            userPw: '1234',
+            email: 'ssafy@ssafy.com',
             imageUrl: require('@/assets/img/velkoz.jpg'),
-        });
-
-        const formData = ref({
-            userId: '',
-            userPw: '',
-            email: '',
         });
 
         const contact = () => {
@@ -51,11 +43,11 @@ export default {
             console.log('Modify button clicked');
         };
 
-        return { userName, profile, formData, contact };
+        return { userName, profile, contact };
     },
 };
 </script>
-  
+
 <style scoped>
 .my-page {
     display: flex;
@@ -63,32 +55,21 @@ export default {
 }
 
 .buttons-container {
-    display: flex;
-    flex-direction: column;
-    padding: 20px;
-    margin: 8px 0;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    width: 100%;
-    opacity: 0.9;
-    margin-bottom: 8px;
+    margin: 0 20px 8px 40px;
     text-align: center;
 }
 
 .nav-button {
-    border: none;
-    outline: 0;
-    display: block;
-    padding: 12px;
-    /* Increased padding for larger buttons */
     margin-bottom: 10px;
     color: white;
     background-color: #000;
     text-align: center;
     cursor: pointer;
-    width: 30%;
     font-size: 18px;
+}
+
+.button-all {
+    border-radius: 5px;
 }
 
 .card {
@@ -97,8 +78,9 @@ export default {
     text-align: center;
     font-family: arial;
     padding: 20px;
-    justify-content: center;
-    display: block;
+    margin: 40px auto;
+    /* justify-content: center;
+    display: block; */
 }
 
 .title {
