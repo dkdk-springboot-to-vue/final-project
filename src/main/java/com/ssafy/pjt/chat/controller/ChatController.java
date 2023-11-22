@@ -42,8 +42,9 @@ public class ChatController {
 			@RequestBody @ApiParam(value = "채팅방 생성.", required = true) ChatRoomDto dto) {
 		try {
 			service.registRoom(dto);
-			List<ChatRoomDto> list = service.listRoom();
-			return new ResponseEntity<List<ChatRoomDto>>(list, HttpStatus.CREATED);
+			 System.out.println(dto.getRoomId());
+			 ChatRoomDto createdRoom = service.detailRoom(dto.getRoomId());
+			return new ResponseEntity<ChatRoomDto>(createdRoom, HttpStatus.CREATED);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -52,10 +53,10 @@ public class ChatController {
 	}
 	
 	@ApiOperation(value = "채팅방 조회", notes = "채팅방 목록을 조회한다.")
-	@GetMapping("/room")
-	public ResponseEntity<?> listRoom() {
+	@GetMapping("/{userId}")
+	public ResponseEntity<?> listRoom(@PathVariable("userId") String userId) {
 		try {
-			List<ChatRoomDto> list = service.listRoom();
+			List<ChatRoomDto> list = service.listRoom(userId);
 			return new ResponseEntity<List<ChatRoomDto>>(list, HttpStatus.CREATED);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -67,7 +68,7 @@ public class ChatController {
 	@ApiOperation(value = "채팅방 디테일(입장)", notes = "채팅방에 입장한다")
 	@GetMapping("/room/{roomId}")
 	public ResponseEntity<?> detailRoom(
-			@PathVariable("roomId") @ApiParam(value = "채팅방 정보.", required = true) String roomId) {
+			@PathVariable("roomId") @ApiParam(value = "채팅방 정보.", required = true) int roomId) {
 		try {
 			ChatRoomDto dto = service.detailRoom(roomId);
 			List<ChatDto> list = service.listChat(roomId);

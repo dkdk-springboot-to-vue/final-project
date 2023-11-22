@@ -9,6 +9,9 @@ module.exports = defineConfig({
         target: 'https://localhost:80',
         changeOrigin: true,
       },
+      host: '0.0.0.0',
+      public: 'http://192.168.205.92:8080/', // 혹은 사용하는 주소
+      disableHostCheck: true,
     },
   },
 });

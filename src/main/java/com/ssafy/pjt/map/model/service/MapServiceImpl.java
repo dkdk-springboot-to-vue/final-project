@@ -94,7 +94,7 @@ public class MapServiceImpl implements MapService {
 			} else {
 				int type = existingLike.getType();
 				String lType = (type==1) ? "좋아요" : "싫어요";
-				throw new Exception("이미 "+ lType +"선택을 했슴");
+				throw new Exception("이미 "+ lType +"를 선택했습니다");
 			}
 		}
 	}

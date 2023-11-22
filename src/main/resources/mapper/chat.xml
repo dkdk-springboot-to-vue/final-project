@@ -5,25 +5,26 @@
   
  <mapper namespace="com.ssafy.pjt.chat.model.mapper.ChatMapper" >
  
- 	<insert id="registRoom" parameterType="chatRoomDto">
- 		insert into chatrooms (senderId, receiverId)
- 		values (#{senderId}, #{receiverId})
+ 	<insert id="registRoom" parameterType="chatRoomDto" useGeneratedKeys="true" keyProperty="roomId">
+ 		insert into chatrooms (contentId, senderId, receiverId)
+ 		values (#{contentId}, #{senderId}, #{receiverId})
  	</insert>
  	
- 	<select id="listRoom" resultType="chatRoomDto">
- 		select roomId, senderId, receiverId, createdAt
+ 	<select id="listRoom" parameterType="String" resultType="chatRoomDto">
+ 		select roomId, contentId, senderId, receiverId, createdAt, recentMessage
  		from chatrooms
+ 		where senderId=#{userId} or receiverId=#{userId}
  		order by createdAt desc;
  	</select>
  	
- 	<select id="detailRoom" parameterType="String" resultType="chatRoomDto">
- 		select roomId, senderId, receiverId, createdAt
+ 	<select id="detailRoom" parameterType="int" resultType="chatRoomDto">
+ 		select roomId, contentId, senderId, receiverId, createdAt, recentMessage
  		from chatrooms
  		where roomId = #{roomId}
  	</select>
  
- 	<select id="listChat" parameterType="String" resultType="chatDto">
- 		select chatId, roomId, userId, content, createdAt
+ 	<select id="listChat" parameterType="int" resultType="chatDto">
+ 		select chatId, roomId, userId, content, createdAt, isRead
  		from chats
  		where roomId = #{roomId}
  		order by createdAt;
@@ -33,5 +34,26 @@
  		insert into chats (roomId, userId, content)
  		values (#{roomId}, #{userId}, #{content})
  	</insert>
+ 	
+ 	<!-- 채팅방 수정 -->
+	<update id="updateRoom" parameterType="chatRoomDto">
+	    UPDATE chatrooms 
+	    SET senderId = #{senderId}, receiverId = #{receiverId}, recentMessage = #{recentMessage}
+	    WHERE roomId = #{roomId}
+	</update>
+	
+	<!-- 최신 메시지 수정 -->
+	<update id="updateRecentMessage" parameterType="int">
+	    UPDATE chatrooms 
+	    SET recentMessage = #{message} 
+	    WHERE roomId = #{roomId}
+	</update>
+	
+	<!-- isRead 업데이트 -->
+	<update id="updateIsRead" parameterType="int">
+	    UPDATE chats 
+	    SET isRead = 1 
+	    WHERE roomId = #{roomId}
+	</update>
  
  </mapper>

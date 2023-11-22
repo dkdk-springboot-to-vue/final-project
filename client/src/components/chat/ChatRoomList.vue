@@ -15,6 +15,7 @@ onMounted(() => {
 const getChatRoomList = () => {
   console.log('채팅 목록 얻어오기');
   listRoom(
+    'ssafy',
     ({ data }) => {
       console.log(data);
       chatrooms.value = data;

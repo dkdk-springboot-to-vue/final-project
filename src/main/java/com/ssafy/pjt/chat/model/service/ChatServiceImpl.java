@@ -24,12 +24,12 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public List<ChatRoomDto> listRoom() throws Exception {
-		return mapper.listRoom();
+	public List<ChatRoomDto> listRoom(String userId) throws Exception {
+		return mapper.listRoom(userId);
 	}
 
 	@Override
-	public List<ChatDto> listChat(String roomId) throws Exception {
+	public List<ChatDto> listChat(int roomId) throws Exception {
 		return mapper.listChat(roomId);
 	}
 
@@ -40,9 +40,9 @@ public class ChatServiceImpl implements ChatService {
 	}
 
 	@Override
-	public ChatRoomDto detailRoom(String roomId) throws Exception {
-		// TODO Auto-generated method stub
-		return mapper.detailRoom(roomId);
+	public ChatRoomDto detailRoom(int roomId) throws Exception {
+		ChatRoomDto dto = mapper.detailRoom(roomId);
+		return dto;
 	}
 
 }

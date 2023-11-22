@@ -33,7 +33,6 @@ public class MemberController {
 		this.service = service;
 	}
 	
-	
 	// register
 	@PostMapping(value = "")
 	public ResponseEntity<?> register(@RequestBody MemberDto dto) {
