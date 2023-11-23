@@ -4,7 +4,7 @@ const local = localAxios();
 
 const url = "/board";
 
-function listArticle(pgno, key, word, success, fail) {
+function listArticle(param, success, fail) {
   local.get(`${url}/list/`, { params: param }).then(success).catch(fail);
 }
 
@@ -22,7 +22,7 @@ function deleteArticle(articleno, success, fail) {
 }
 
 function modifyArticle(articleno, success, fail) {
-  local.delete(`${url}/${articleno}`).then(success).catch(fail);
+  local.put(`${url}/${articleno}`).then(success).catch(fail);
 }
 
 export {

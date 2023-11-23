@@ -4,12 +4,12 @@ import { useRoute, useRouter } from "vue-router";
 
 export default {
     setup() {
-        const userName = ref('현진');
+        const userName = ref(sessionStorage.getItem('userName'));
 
         const profile = ref({
-            userId: 'ssafy',
-            userPw: '1234',
-            email: 'ssafy@ssafy.com',
+            userId: sessionStorage.getItem('userId'),
+            userPw: sessionStorage.getItem('userPw'),
+            email: sessionStorage.getItem('email'),
             imageUrl: require('@/assets/img/velkoz.jpg'),
         });
 
