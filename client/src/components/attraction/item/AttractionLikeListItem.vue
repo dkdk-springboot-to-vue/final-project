@@ -2,7 +2,7 @@
 import { defineProps, ref, defineEmits } from 'vue';
 import { useRouter } from 'vue-router';
 import { registRoom } from '@/api/chat';
-const props = defineProps({ mem: Object, contentId: Number, showModal: Boolean });
+const props = defineProps({ mem: Object, contentId: Number });
 const emit = defineEmits(['close-modal']);
 const chatDto = ref({
   contentId: 0,

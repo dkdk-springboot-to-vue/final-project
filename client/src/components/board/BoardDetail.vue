@@ -1,7 +1,7 @@
 <script setup>
-import { ref, onMounted, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { detailArticle, deleteArticle, registReply } from "@/api/board";
+import { ref, onMounted, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { detailArticle, deleteArticle, registReply } from '@/api/board';
 
 const route = useRoute();
 const router = useRouter();
@@ -12,8 +12,8 @@ const article = ref({});
 
 const reply = ref({
   articleno: articleno,
-  replyContent: "",
-  userId: "test",
+  replyContent: '',
+  userId: 'test',
 });
 
 onMounted(() => {
@@ -21,7 +21,7 @@ onMounted(() => {
 });
 
 const getArticle = () => {
-  console.log("get detail artcle");
+  console.log('get detail artcle');
   detailArticle(articleno, ({ data }) => {
     console.log(data);
     article.value = data;
@@ -29,16 +29,16 @@ const getArticle = () => {
 };
 
 const moveModify = () => {
-  router.push({ name: "article-modify", params: { articleno } });
+  router.push({ name: 'article-modify', params: { articleno } });
 };
 
 function moveList() {
-  router.push({ name: "article-list" });
+  router.push({ name: 'article-list' });
 }
 
 const onDeleteArticle = () => {
   // const { articleno } = route.params;
-  console.log(articleno + "번글 삭제하러 가자!!!");
+  console.log(articleno + '번글 삭제하러 가자!!!');
   // API 호출
   deleteArticle(articleno, ({ data }) => {
     console.log(data);
@@ -47,15 +47,15 @@ const onDeleteArticle = () => {
   });
 };
 
-const replyErrMsg = ref("");
+const replyErrMsg = ref('');
 
 watch(
   () => reply.value.replyContent,
   (value) => {
     let len = value.length;
     if (len == 0 || len > 100) {
-      replyErrMsg.value = "내용을 확인해 주세요!!!";
-    } else replyErrMsg.value = "";
+      replyErrMsg.value = '내용을 확인해 주세요!!!';
+    } else replyErrMsg.value = '';
   },
   { immediate: true }
 );
@@ -71,11 +71,11 @@ function onSubmit() {
 }
 
 function writereply() {
-  console.log("댓글작성");
+  console.log('댓글작성');
   registReply(
     reply.value,
     ({ data }) => {
-      console.log("writeReply : " + data);
+      console.log('writeReply : ' + data);
     },
     (error) => {
       console.log(error);

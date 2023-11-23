@@ -22,7 +22,7 @@ public class BookmarkDto {
     private int contentId;
     @ApiModelProperty(value = "사용자 ID")
     private String userId;
-    @ApiModelProperty(value = "제목")
+    @ApiModelProperty(value = "제목 (content title")
     private String title;
     @ApiModelProperty(value = "생성일")
     private String createdAt;

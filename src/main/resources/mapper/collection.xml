@@ -13,7 +13,7 @@
 	</select>
 	
 	<!-- registCollection -->
-	<insert id="registCollection" parameterType="collectionDto">
+	<insert id="registCollection" parameterType="collectionDto" useGeneratedKeys="true" keyProperty="cId">
 	    INSERT INTO collections (userId, title) 
 	    VALUES (#{userId}, #{title})
 	</insert>
@@ -39,7 +39,7 @@
 	
 	<!-- listBookmark -->
 	<select id="listBookmark" parameterType="int" resultType="bookmarkDto">
-	    SELECT savedId, cId, contentId, userId, title, createdAt
+	    SELECT cId, contentId, userId, title, createdAt
 	    FROM bookmarks 
 	    WHERE cId = #{cId}
 	</select>

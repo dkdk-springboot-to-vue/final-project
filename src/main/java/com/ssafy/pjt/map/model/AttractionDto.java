@@ -30,6 +30,8 @@ public class AttractionDto {
 	private double longitude;
 	private String mlevel;
 	
+	private double dist; // 위치 기준 반경
+	
 	private List<LikeDto> likes;
     @ApiModelProperty(value = "좋아요 개수")
     private int likeCount;

@@ -62,7 +62,7 @@ const send = () => {
 // });
 
 const connection = () => {
-  const serverURL = 'http://localhost:80/ws';
+  const serverURL = 'http://192.168.205.92:80/ws';
   let socket = new SockJs(serverURL);
   stompClient = Stomp.over(socket);
   console.log(stompClient);

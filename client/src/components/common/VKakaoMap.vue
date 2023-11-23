@@ -2,13 +2,19 @@
 import { ref, watch, onMounted, defineProps } from 'vue';
 
 var map;
+let circleOverlay = null; // 원 객체를 추적할 변수
 const positions = ref([]);
 const markers = ref([]);
 
-const props = defineProps({ attractions: Array, selectAttraction: Object });
+const props = defineProps({
+  attractions: Array,
+  selectAttraction: Object,
+  checkbox: Boolean,
+  dist: Number,
+});
 
 watch(
-  () => props.selectAttraction.value,
+  [() => props.selectAttraction.value, () => props.checkbox, () => props.dist],
   () => {
     // 이동할 위도 경도 위치를 생성합니다
     var moveLatLon = new kakao.maps.LatLng(
@@ -23,6 +29,14 @@ watch(
     const attraction = props.selectAttraction;
     const content = generateOverlayContent(attraction);
     displayOverlay(moveLatLon, content);
+
+    if (circleOverlay) {
+      circleOverlay.setMap(null);
+    }
+    if (props.checkbox) {
+      showCircle(moveLatLon, props.selectAttraction.dist);
+    }
+    console.log('whatch checkboxs');
   },
   { deep: true }
 );
@@ -196,6 +210,28 @@ const closeOverlay = () => {
     overlay.setMap(null);
   }
 };
+
+const showCircle = (position, dist) => {
+  // 지도에 표시할 원을 생성합니다
+
+  if (circleOverlay) {
+    circleOverlay.setMap(null);
+  }
+
+  circleOverlay = new kakao.maps.Circle({
+    center: position, // 원의 중심좌표 입니다
+    radius: dist * 1000, // 미터 단위의 원의 반지름입니다
+    strokeWeight: 0.2, // 선의 두께입니다
+    strokeColor: '#75B8FA', // 선의 색깔입니다
+    strokeOpacity: 1, // 선의 불투명도 입니다 1에서 0 사이의 값이며 0에 가까울수록 투명합니다
+    strokeStyle: 'solid', // 선의 스타일 입니다
+    fillColor: '#CFE7FF', // 채우기 색깔입니다
+    fillOpacity: 0.5, // 채우기 불투명도 입니다
+  });
+
+  // 지도에 원을 표시합니다
+  circleOverlay.setMap(map);
+};
 </script>
 
 <template>
@@ -219,6 +255,7 @@ const closeOverlay = () => {
   font-size: 12px;
   font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
   line-height: 1.5;
+  z-index: 99000000;
 }
 .wrap * {
   padding: 0;

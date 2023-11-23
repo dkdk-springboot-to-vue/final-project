@@ -7,6 +7,10 @@ function listCollection(userId, success, fail) {
   local.get(`${url}/${userId}`).then(success).catch(fail);
 }
 
+function registCollection(dto, success, fail) {
+  local.post(`${url}`, dto).then(success).catch(fail);
+}
+
 function detailCollection(cId, success, fail) {
   local.get(`${url}/detail/${cId}`).then(success).catch(fail);
 }
@@ -33,6 +37,7 @@ function deleteBookmark(savedId, success, fail) {
 
 export {
   listCollection,
+  registCollection,
   detailCollection,
   deleteCollection,
   updateCollection,
