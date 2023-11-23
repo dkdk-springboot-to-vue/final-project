@@ -1,9 +1,11 @@
 <script setup>
-import { ref, defineProps, watch, onMounted } from 'vue';
+import { ref, defineProps, watch, onMounted, defineEmits } from 'vue';
 import { toggleLike, detailAttr } from '@/api/map';
 
 import AttractionLikeList from '@/components/attraction/AttractionLikeList.vue';
+import CollectionList from '@/components/collection/CollectionList.vue';
 const props = defineProps({ selectAttraction: Object });
+const emit = defineEmits(['checkboxChanged']);
 
 const likeDto = ref({
   contentId: 0,
@@ -16,6 +18,7 @@ const likeInfo = ref({
   dislikeCount: 0,
 });
 
+const checkbox = ref(false); // 주위 반경 보기 on/off
 const state = ref(0);
 const checkChange = ref(0);
 
@@ -102,7 +105,14 @@ const registEmote = (val) => {
   </button>
 
   <div>
-    <button class="btn btn-primary">찜하기</button>
+    <button
+      type="button"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#collectionModal"
+    >
+      찜하기
+    </button>
   </div>
 
   <AttractionLikeList
@@ -110,6 +120,8 @@ const registEmote = (val) => {
     :type="state"
     :checkChange="checkChange"
   />
+
+  <CollectionList :selectAttraction="selectAttraction" />
 </template>
 
 <style scoped></style>

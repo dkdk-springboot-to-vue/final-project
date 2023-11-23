@@ -11,8 +11,12 @@ function listGugun(sido_code, success, fail) {
   local.get(`${url}/gugun/${sido_code}`).then(success).catch(fail);
 }
 
-function listAttr(attr, success, fail) {
-  local.post(`${url}/mapview`, attr).then(success).catch(fail);
+function listAttr(attrDto, success, fail) {
+  local.post(`${url}/mapview`, attrDto).then(success).catch(fail);
+}
+
+function getAttractionListByDist(attrDto, success, fail) {
+  local.post(`${url}/mapview/dist`, attrDto).then(success).catch(fail);
 }
 
 function detailAttr(content_id, success, fail) {
@@ -27,4 +31,12 @@ function listAttrLikeMember(content_id, success, fail) {
   local.get(`${url}/attr/like/${content_id}`).then(success).catch(fail);
 }
 
-export { listSido, listGugun, listAttr, detailAttr, toggleLike, listAttrLikeMember };
+export {
+  listSido,
+  listGugun,
+  listAttr,
+  detailAttr,
+  toggleLike,
+  listAttrLikeMember,
+  getAttractionListByDist,
+};

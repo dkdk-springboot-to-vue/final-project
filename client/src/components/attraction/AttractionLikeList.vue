@@ -1,11 +1,10 @@
 <script setup>
-import bootstrap from 'bootstrap';
 import { ref, defineProps, onMounted, watch } from 'vue';
 import { listAttrLikeMember } from '@/api/map';
 
 import AttractionLikeListItem from '@/components/attraction/item/AttractionLikeListItem.vue';
 
-const props = defineProps({ type: Number, content_id: Number, checkChange: Array });
+const props = defineProps({ type: Number, content_id: Number, checkChange: Number });
 
 const ratedMembers = ref([]);
 
@@ -55,7 +54,6 @@ watch(
     tabindex="-1"
     aria-labelledby="emoteModalLabel"
     aria-hidden="true"
-    :v-model="showModal"
   >
     <div class="modal-dialog">
       <div class="modal-content">
@@ -77,7 +75,6 @@ watch(
             :key="mem.userId"
             :mem="mem"
             :contentId="props.content_id"
-            :show-modal="showModal"
           >
           </AttractionLikeListItem>
         </div>

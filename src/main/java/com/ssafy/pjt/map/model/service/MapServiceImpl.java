@@ -106,4 +106,10 @@ public class MapServiceImpl implements MapService {
 		return mapper.listAttrLikeMember(contentId);
 	}
 
+	@Override
+	public List<AttractionDto> getAttractionListByDist(AttractionDto dto) throws SQLException {
+		// TODO Auto-generated method stub
+		return mapper.getAttractionListByDist(dto);
+	}
+
 }

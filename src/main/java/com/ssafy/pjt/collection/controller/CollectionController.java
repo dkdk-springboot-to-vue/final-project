@@ -2,6 +2,7 @@ package com.ssafy.pjt.collection.controller;
 
 import java.util.List;
 
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -39,8 +40,8 @@ public class CollectionController {
 		log.info("registerCollection - 호출", dto);
 		try {
 			service.registCollection(dto);
-			List<CollectionDto> list = service.listCollection(dto.getUserId());
-			return new ResponseEntity<List<CollectionDto>>(list, HttpStatus.CREATED);
+			System.out.println(dto);
+			return new ResponseEntity<CollectionDto>(dto, HttpStatus.CREATED);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -102,7 +103,7 @@ public class CollectionController {
 		}
 	}
 	
-	@GetMapping("")
+	@GetMapping("/bookmark/{cid}")
 	public ResponseEntity<?> listBookmark(@PathVariable("cid") int cid) {
 		log.info("listBookmark - 호출", cid);
 		try {
@@ -118,16 +119,20 @@ public class CollectionController {
 	
 	@PostMapping("/bookmark")
 	public ResponseEntity<?> registBookmark(@RequestBody BookmarkDto dto) {
-		log.info("registerCollection - 호출", dto);
+		log.info("registBookmark - 호출", dto);
+		System.out.println(dto);
 		try {
 			service.registBookmark(dto);
 			List<BookmarkDto> list = service.listBookmark(dto.getCId());
 			return new ResponseEntity<List<BookmarkDto>>(list, HttpStatus.CREATED);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return exceptionHandling(e);
-		}
+		} catch (DuplicateKeyException e) {
+	        e.printStackTrace();
+	        String errorMessage = "해당 컬렉션에는 이미 "+dto.getTitle()+"이(가) 추가되어있습니다";
+	        return new ResponseEntity<String>(errorMessage, HttpStatus.CONFLICT);
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return exceptionHandling(e);
+	    }
 	}
 	
 	@DeleteMapping("/bookmark/{savedId}")

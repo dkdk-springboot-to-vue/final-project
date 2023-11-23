@@ -83,6 +83,20 @@ public class MapController {
 
 	}
 	
+	@ApiOperation(value = "거리내 관광지 정보 조회", notes = "시도, 구군 코드에 존재하는 관광지 조회")
+	@PostMapping("/mapview/dist")
+	public ResponseEntity<?> getAttractionListByDist(@RequestBody @ApiParam(value = "조회할 시도, 구군 정보", required = true) AttractionDto dto) {
+		log.info("getAttrList - 호출 - {}", dto);
+		List<AttractionDto> attractionList;
+		try {
+			attractionList = service.getAttractionListByDist(dto);
+			return new ResponseEntity<List<AttractionDto>>(attractionList, HttpStatus.CREATED);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			return exceptionHandling(e);
+		}
+	}
+	
 	@ApiOperation(value = "관광지 상세정보 조회", notes = "광광지 상새정보 조회")
 	@GetMapping("/attr/{contentId}")
 	public ResponseEntity<?> getAttrDetail(@PathVariable("contentId") @ApiParam(value = "조회할 정보 아이디", required = true) int contentId) {

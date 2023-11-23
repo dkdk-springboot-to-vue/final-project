@@ -14,6 +14,7 @@ import com.ssafy.pjt.map.model.SidoGugunCodeDto;
 @Mapper
 public interface MapMapper {
 	List<AttractionDto> getAttractionList(SidoGugunCodeDto dto) throws SQLException;
+	List<AttractionDto> getAttractionListByDist(AttractionDto dto) throws SQLException;
 	AttractionDto getAttractionDetail(int contentId) throws SQLException;
 	List<SidoGugunCodeDto> getSido() throws SQLException;
 	List<SidoGugunCodeDto> getGugunInSido(int sido_code) throws SQLException;

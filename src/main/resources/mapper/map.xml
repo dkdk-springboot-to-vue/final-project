@@ -24,6 +24,13 @@
 		where sido_code = #{sido_code} and gugun_code = #{gugun_code}
 	</select>
 	
+	<select id="getAttractionListByDist" parameterType="attractionDto" resultType="attractionDto">
+	    SELECT content_id, content_type_id, title, addr1, zipcode, tel, first_image, first_image2, 
+	            readcount, sido_code, gugun_code, latitude, longitude, mlevel
+	    FROM attraction_info
+	    WHERE ( 6371 * acos( cos( radians(#{latitude}) ) * cos( radians( latitude ) ) * cos( radians( longitude ) - radians(#{longitude}) ) + sin( radians(#{latitude}) ) * sin( radians( latitude ) ) ) ) <![CDATA[<]]> #{dist}
+	</select>
+	
 	<select id="getAttractionDetail" parameterType="int" resultType="attractionDto">
 		select content_id, content_type_id, title, addr1, zipcode, tel, first_image, first_image2, 
 			   readcount, sido_code, gugun_code, latitude, longitude, mlevel
