@@ -1,3 +1,67 @@
+<script>
+import { ref, watchEffect, onMounted } from 'vue';
+import axios from 'axios';
+
+import { useRouter } from "vue-router";
+import { loginMember } from "@/api/member";
+
+
+
+export default {
+
+    setup() {
+        const isLoginFormVisible = ref(false);
+        const formData = ref({
+            userId: '',
+            userPw: '',
+            remember: false,
+        });
+
+        const toggleLoginForm = () => {
+            isLoginFormVisible.value = !isLoginFormVisible.value;
+        };
+
+        const closeLoginForm = () => {
+            isLoginFormVisible.value = false;
+        };
+
+        const login = async () => {
+            try {
+                const response = await axios.post('http://localhost:80/api/member/login', {
+                    userId: formData.value.userId,
+                    userPw: formData.value.userPw,
+                });
+
+                if (response) {
+                    console.log('Login successful', response.data);
+                    sessionStorage.setItem("user", JSON.stringify(formData.value.userId));
+                    console.log(formData.value.userId);
+                    alert('로긴 성공 !' + sessionStorage.getItem('user') + '님 환영합니다 !');
+                    closeLoginForm();
+
+                } else {
+                    console.error('Empty response received');
+                    alert('로긴 실패 ㅜㅜ');
+                }
+            } catch (error) {
+                console.error('Error during login', error.response ? error.response.data : error.message);
+                alert('로긴 실패 ㅜㅜ');
+            }
+        };
+
+        return {
+            isLoginFormVisible,
+            formData,
+            toggleLoginForm,
+            closeLoginForm,
+            login,
+        };
+    },
+};
+</script>
+
+
+
 <template>
     <button @click="toggleLoginForm" style="width: auto">Login</button>
 
@@ -32,58 +96,6 @@
     </form>
 </template>
 
-<script>
-import { ref, watchEffect } from 'vue';
-import axios from 'axios';
-
-export default {
-    setup() {
-        const isLoginFormVisible = ref(false);
-        const formData = ref({
-            userId: '',
-            userPw: '',
-            remember: false,
-        });
-
-        const toggleLoginForm = () => {
-            isLoginFormVisible.value = !isLoginFormVisible.value;
-        };
-
-        const closeLoginForm = () => {
-            isLoginFormVisible.value = false;
-        };
-
-        const login = async () => {
-            try {
-                const response = await axios.post('http://localhost:80/api/member/login', {
-                    userId: formData.value.userId,
-                    userPw: formData.value.userPw,
-                });
-
-                if (response) {
-                    console.log('Login successful', response.data);
-                    alert('로긴 성공 !');
-                    closeLoginForm();
-                } else {
-                    console.error('Empty response received');
-                    alert('로긴 실패 ㅜㅜ');
-                }
-            } catch (error) {
-                console.error('Error during login', error.response ? error.response.data : error.message);
-                alert('로긴 실패 ㅜㅜ');
-            }
-        };
-
-        return {
-            isLoginFormVisible,
-            formData,
-            toggleLoginForm,
-            closeLoginForm,
-            login,
-        };
-    },
-};
-</script>
 
 <style scoped>
 /* Container for the component */
