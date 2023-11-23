@@ -2,39 +2,22 @@ import { localAxios } from "@/util/http-commons";
 
 const local = localAxios();
 
-const url = "/board";
+const url = "/member";
 
-function listArticle(param, success, fail) {
-  local.get(`${url}/list`, { params: param }).then(success).catch(fail);
+function detailMember(userId, success, fail) {
+  local.get(`${url}/${userId}`).then(success).catch(fail);
 }
 
-function detailArticle(articleno, success, fail) {
-  local.get(`${url}/view/${articleno}`).then(success).catch(fail);
+function registMember(user, success, fail) {
+  local.post(`${url}`, JSON.stringify(user)).then(success).catch(fail);
 }
 
-function registArticle(article, success, fail) {
-  console.log("boardjs article", article);
-  local.post(`${url}/write`, JSON.stringify(article)).then(success).catch(fail);
+function deleteMember(userId, success, fail) {
+  local.delete(`${url}/${userId}`).then(success).catch(fail);
 }
 
-function deleteArticle(articleno, success, fail) {
-  local.delete(`${url}/${articleno}`).then(success).catch(fail);
+function modifyMember(user, success, fail) {
+  local.put(`${url}`, JSON.stringify(user)).then(success).catch(fail);
 }
 
-function modifyArticle(articleno, success, fail) {
-  local.delete(`${url}/${articleno}`).then(success).catch(fail);
-}
-
-function registReply(reply, success, fail) {
-  console.log("boardjs reply", reply);
-  local.post(`${url}/reply`, JSON.stringify(reply)).then(success).catch(fail);
-}
-
-export {
-  listArticle,
-  detailArticle,
-  registArticle,
-  deleteArticle,
-  modifyArticle,
-  registReply,
-};
+export { detailMember, registMember, deleteMember, modifyMember };

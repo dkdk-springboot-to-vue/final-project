@@ -5,8 +5,6 @@ import axios from 'axios';
 import { useRouter } from "vue-router";
 import { loginMember } from "@/api/member";
 
-
-
 export default {
 
     setup() {
@@ -34,9 +32,11 @@ export default {
 
                 if (response) {
                     console.log('Login successful', response.data);
-                    sessionStorage.setItem("user", JSON.stringify(formData.value.userId));
+                    sessionStorage.setItem("userName", JSON.stringify(formData.value.userName));
+                    sessionStorage.setItem("userId", JSON.stringify(formData.value.userId));
+                    sessionStorage.setItem("userPw", JSON.stringify(formData.value.userPw));
                     console.log(formData.value.userId);
-                    alert('로긴 성공 !' + sessionStorage.getItem('user') + '님 환영합니다 !');
+                    alert('로긴 성공 !' + sessionStorage.getItem('userName') + '님 환영합니다 !');
                     closeLoginForm();
 
                 } else {

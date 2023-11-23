@@ -12,12 +12,12 @@ import com.ssafy.pjt.board.model.BoardDto;
 
 @Mapper
 public interface BoardMapper {
-	void writeArticle(BoardDto boardDto) throws SQLException;
-	List<BoardDto> listArticle(Map<String, Object> param) throws SQLException;
-	int getTotalArticleCount(Map<String, Object> param) throws SQLException;
-	BoardDto getArticle(int articleNo) throws SQLException;
-	void updateHit(int articleNo) throws SQLException;
+	public void writeArticle(BoardDto boardDto) throws SQLException;
+	public List<BoardDto> listArticle(Map<String, Object> param) throws SQLException;
+	public int getTotalArticleCount(Map<String, Object> param) throws SQLException;
+	public BoardDto getArticle(int articleNo) throws SQLException;
+	public void updateHit(int articleNo) throws SQLException;
 	
-	void modifyArticle(BoardDto boardDto) throws SQLException;
-	void deleteArticle(int articleNo) throws SQLException;
+	public void modifyArticle(BoardDto boardDto) throws SQLException;
+	public void deleteArticle(int articleNo) throws SQLException;
 }

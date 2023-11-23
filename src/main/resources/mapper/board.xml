@@ -7,7 +7,7 @@
 <mapper namespace="com.ssafy.pjt.board.model.mapper.BoardMapper">
 
 
-    <insert id="boardWrite" parameterType="BoardDto">
+    <insert id="writeArticle" parameterType="boardDto">
         insert into board (userId, subject, content)
         values (#{userId}, #{subject}, #{content})
     </insert>
@@ -24,16 +24,16 @@
 		</if>
 	</sql>
 
-    <select id="boardList" resultType="BoardDto" parameterType="map">
+    <select id="listArticle" resultType="boardDto" parameterType="map">
         select articleNo, userId, subject, content, hit, registerTime
         from board
         where 1=1
         <include refid="search"></include>
-        order by article_no desc
+        order by articleNo desc
         limit #{start}, #{listsize}
     </select>
 
-    <select id="boardCount" resultType="int" parameterType="map">
+    <select id="getTotalArticleCount" resultType="int" parameterType="map">
         select count(articleNo)
         from board
         where 1=1
@@ -52,7 +52,7 @@
         where articleNo = #{articleNo}
     </update>
 
-    <update id="modifyArticle" parameterType="BoardDto">
+    <update id="modifyArticle" parameterType="boardDto">
         update board
         set subject = #{subject}, content = #{content}
         where articleNo = #{articleNo}

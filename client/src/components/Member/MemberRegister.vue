@@ -13,14 +13,31 @@ export default {
             passwordRepeat: '',
         });
 
+
+
         const register = async () => {
-            if (formData.value.userPw !== formData.value.passwordRepeat) {
-                console.error('Passwords do not match');
-                alert('비밀번호가 낫 쎄임');
+            // 유효성 검사
+            if (!validateId(formData.value.userId)) {
+                alert('올바른 아이디 형식이 아닙니다.');
                 return;
             }
 
+            const pwValidation = validatePw(formData.value.userPw);
+            if (!pwValidation[0]) {
+                alert(pwValidation[1]);
+                return;
+            }
 
+            if (!validateEmail(formData.value.email)) {
+                alert('올바른 이메일 형식이 아닙니다.');
+                return;
+            }
+
+            if (formData.value.userPw !== formData.value.passwordRepeat) {
+                console.error('Passwords do not match');
+                alert('비밀번호가 일치하지 않습니다.');
+                return;
+            }
 
             try {
                 const response = await axios.post('http://localhost:80/api/member', {
@@ -31,21 +48,18 @@ export default {
                 });
 
                 console.log('Registration successful', response.data);
-                alert('ㅊㅋ !');
+                alert('회원가입 성공!');
             } catch (error) {
                 console.error('Error registering', error);
                 if (error.response) {
-                    // 서버 응답이 올 경우
                     console.error('Server responded with:', error.response.data);
                 } else if (error.request) {
-                    // 요청은 보냈지만 응답이 없는 경우
                     console.error('No response received');
                 } else {
-                    // 오류 요청 전에 발생한 경우
                     console.error('Error before sending request', error.message);
                 }
 
-                alert('이미 있음');
+                alert('이미 존재하는 회원입니다.');
             }
         };
 
@@ -56,6 +70,8 @@ export default {
     },
 };
 </script>
+
+
 
 <template>
     <form @submit.prevent="register">
