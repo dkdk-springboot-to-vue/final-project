@@ -1,28 +1,58 @@
-import { createRouter, createWebHistory } from 'vue-router';
+import { createRouter, createWebHistory } from "vue-router";
 // import Home from "../views/Home.vue";
-import MemberLogin from '../components/Member/MemberLogin.vue';
-import MemberRegister from '../components/Member/MemberRegister.vue';
-import MemberPage from '../components/Member/MemberPage.vue';
+import MemberLogin from "../components/Member/MemberLogin.vue";
+import MemberRegister from "../components/Member/MemberRegister.vue";
+import MemberPage from "../components/Member/MemberPage.vue";
 
 const routes = [
   {
     path: "/",
     name: "Home",
   },
+  // {
+  //   path: '/MemberLogin',
+  //   name: 'MemberLogin',
+  //   component: MemberLogin,
+  // },
+  // {
+  //   path: '/MemberRegister',
+  //   name: 'MemberRegister',
+  //   component: MemberRegister,
+  // },
+  // {
+  //   path: '/MemberPage',
+  //   name: 'MemberPage',
+  //   component: MemberPage,
+  // },
+
+  // hyunjin
   {
-    path: '/MemberLogin',
-    name: 'MemberLogin',
-    component: MemberLogin,
-  },
-  {
-    path: '/MemberRegister',
-    name: 'MemberRegister',
-    component: MemberRegister,
-  },
-  {
-    path: '/MemberPage',
-    name: 'MemberPage',
-    component: MemberPage,
+    path: "/Member",
+    name: "member",
+    component: () => import("../views/TheMemberView.vue"),
+    redirect: { name: "member-register" },
+    children: [
+      {
+        path: "register",
+        name: "member-register",
+        component: () => import("@/components/Member/MemberRegister.vue"),
+      },
+      {
+        path: "login",
+        name: "member-login",
+        component: () => import("@/components/Member/MemberLogin.vue"),
+      },
+      {
+        path: "find",
+        name: "member-page",
+        component: () => import("@/components/Member/MemberPage.vue"),
+      },
+      // {
+      //   path: "find",
+      //   name: "member-page",
+      //   component: () => import("@/components/Member/MemberFind.vue"),
+      // },
+    ],
   },
 
   {
@@ -55,32 +85,32 @@ const routes = [
   },
 
   {
-    path: '/attractions',
-    name: 'attractions',
-    component: () => import('@/views/TheAttractionView.vue'),
-    redirect: { name: 'attraction-list' },
+    path: "/attractions",
+    name: "attractions",
+    component: () => import("@/views/TheAttractionView.vue"),
+    redirect: { name: "attraction-list" },
     children: [
       {
-        path: 'list',
-        name: 'attraction-list',
-        component: () => import('@/components/attraction/AttractionList.vue'),
+        path: "list",
+        name: "attraction-list",
+        component: () => import("@/components/attraction/AttractionList.vue"),
       },
     ],
   },
   {
-    path: '/chat',
-    name: 'chat',
-    component: () => import('@/views/TheChatView.vue'),
+    path: "/chat",
+    name: "chat",
+    component: () => import("@/views/TheChatView.vue"),
     children: [
       {
-        path: 'list',
-        name: 'chatroom-list',
-        component: () => import('@/components/chat/ChatRoomList.vue'),
+        path: "list",
+        name: "chatroom-list",
+        component: () => import("@/components/chat/ChatRoomList.vue"),
       },
       {
-        path: 'detail/:roomid',
-        name: 'detail-chatroom',
-        component: () => import('@/components/chat/ChatRoomDetail.vue'),
+        path: "detail/:roomid",
+        name: "detail-chatroom",
+        component: () => import("@/components/chat/ChatRoomDetail.vue"),
       },
     ],
   },
