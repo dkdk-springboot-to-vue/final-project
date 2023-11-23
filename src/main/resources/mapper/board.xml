@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.ssafy.pjt.board.model.mapper.BoardMapper">
+
+
+    <insert id="boardWrite" parameterType="BoardDto">
+        insert into board (userId, subject, content)
+        values (#{userId}, #{subject}, #{content})
+    </insert>
+
+
+	<sql id="search">
+		<if test="word != null and word != ''">
+			<if test="key == 'subject'">
+				and subject like concat('%', #{word}, '%')
+			</if>
+			<if test="key != 'subject'">
+				and ${key} = #{word}
+			</if>
+		</if>
+	</sql>
+
+    <select id="boardList" resultType="BoardDto" parameterType="map">
+        select articleNo, userId, subject, content, hit, registerTime
+        from board
+        where 1=1
+        <include refid="search"></include>
+        order by article_no desc
+        limit #{start}, #{listsize}
+    </select>
+
+    <select id="boardCount" resultType="int" parameterType="map">
+        select count(articleNo)
+        from board
+        where 1=1
+        <include refid="search"></include>
+    </select>
+
+    <select id="getArticle" resultType="boardDto" parameterType="int">
+        select articleNo, userId, subject, content, hit, registerTime
+        from board
+        where articleNo = #{articleNo}
+    </select>
+    
+    <update id="updateHit" parameterType="int">
+        update board
+        set hit = hit + 1
+        where articleNo = #{articleNo}
+    </update>
+
+    <update id="modifyArticle" parameterType="BoardDto">
+        update board
+        set subject = #{subject}, content = #{content}
+        where articleNo = #{articleNo}
+    </update>
+
+    <delete id="deleteArticle" parameterType="int">
+        delete from board
+        where articleNo = #{articleNo}
+    </delete>
+
+</mapper>

@@ -4,8 +4,8 @@ const local = localAxios();
 
 const url = "/board";
 
-function listArticle(param, success, fail) {
-  local.get(`${url}/list`, { params: param }).then(success).catch(fail);
+function listArticle(pgno, key, word, success, fail) {
+  local.get(`${url}/list/`, { params: param }).then(success).catch(fail);
 }
 
 function detailArticle(articleno, success, fail) {
@@ -25,16 +25,10 @@ function modifyArticle(articleno, success, fail) {
   local.delete(`${url}/${articleno}`).then(success).catch(fail);
 }
 
-function registReply(reply, success, fail) {
-  console.log("boardjs reply", reply);
-  local.post(`${url}/reply`, JSON.stringify(reply)).then(success).catch(fail);
-}
-
 export {
   listArticle,
   detailArticle,
   registArticle,
   deleteArticle,
   modifyArticle,
-  registReply,
 };

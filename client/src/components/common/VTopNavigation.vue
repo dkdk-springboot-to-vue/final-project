@@ -16,14 +16,16 @@
       <!-- Spacer to push Login and Register to the right -->
       <div class="spacer"></div>
 
+      <!-- <div>{{ userId }}</div> -->
+
       <!-- myPage Link -->
-      <router-link to="/MemberPage" :class="{ active: isRouteActive('/MemberPage') }">My Page</router-link>
+      <router-link :to="{ name: 'member-page' }" :class="{ active: isRouteActive('/') }">My Page</router-link>
 
       <!-- Login Link -->
-      <router-link to="/MemberLogin" :class="{ active: isRouteActive('/MemberLogin') }">Login</router-link>
+      <router-link :to="{ name: 'member-login' }" :class="{ active: isRouteActive('/') }">Login</router-link>
 
       <!-- Register Link -->
-      <router-link to="/MemberRegister" :class="{ active: isRouteActive('/MemberRegister') }">Register</router-link>
+      <router-link :to="{ name: 'member-register' }" :class="{ active: isRouteActive('/') }">Register</router-link>
     </div>
     <!-- <router-view></router-view> -->
   </div>
@@ -38,6 +40,10 @@ export default {
     const route = useRoute();
     const router = useRouter();
 
+    // 세션스토리지
+    // const userId = ref('');
+    // userId.value = sessionStorage.getItem('user')
+
     const isRouteActive = (path) => {
       // Check if the current route path starts with the specified path
       return route.path.startsWith(path);
@@ -45,6 +51,7 @@ export default {
 
     return {
       isRouteActive,
+      // userId,
     };
   },
 };

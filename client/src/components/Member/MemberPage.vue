@@ -1,3 +1,29 @@
+<script>
+import { ref, onMounted, watch } from "vue";
+import { useRoute, useRouter } from "vue-router";
+
+export default {
+    setup() {
+        const userName = ref('현진');
+
+        const profile = ref({
+            userId: 'ssafy',
+            userPw: '1234',
+            email: 'ssafy@ssafy.com',
+            imageUrl: require('@/assets/img/velkoz.jpg'),
+        });
+
+        const contact = () => {
+            // Handle contact logic
+            console.log('Modify button clicked');
+        };
+
+        return { userName, profile, contact };
+    },
+};
+</script>
+
+
 <template>
     <div class="my-page">
         <div class="buttons-container">
@@ -24,29 +50,6 @@
 </template>
 
 
-<script>
-import { ref } from 'vue';
-
-export default {
-    setup() {
-        const userName = ref('현진');
-
-        const profile = ref({
-            userId: 'ssafy',
-            userPw: '1234',
-            email: 'ssafy@ssafy.com',
-            imageUrl: require('@/assets/img/velkoz.jpg'),
-        });
-
-        const contact = () => {
-            // Handle contact logic
-            console.log('Modify button clicked');
-        };
-
-        return { userName, profile, contact };
-    },
-};
-</script>
 
 <style scoped>
 .my-page {
