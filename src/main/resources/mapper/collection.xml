@@ -39,9 +39,10 @@
 	
 	<!-- listBookmark -->
 	<select id="listBookmark" parameterType="int" resultType="bookmarkDto">
-	    SELECT cId, contentId, userId, title, createdAt
-	    FROM bookmarks 
-	    WHERE cId = #{cId}
+		SELECT b.cId, b.contentId, b.userId, b.title, b.createdAt, a.title AS attractionTitle, a.latitude, a.longitude, a.first_image, a.addr1
+		FROM bookmarks AS b
+		INNER JOIN attraction_info AS a ON b.contentId = a.content_id
+		WHERE b.cId = #{cId};
 	</select>
 	
 	<!-- registBookmark -->

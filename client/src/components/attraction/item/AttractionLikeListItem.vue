@@ -2,11 +2,15 @@
 import { defineProps, ref, defineEmits } from 'vue';
 import { useRouter } from 'vue-router';
 import { registRoom } from '@/api/chat';
+
+const user = ref('');
+user.value = sessionStorage.getItem('userId');
+
 const props = defineProps({ mem: Object, contentId: Number });
 const emit = defineEmits(['close-modal']);
 const chatDto = ref({
   contentId: 0,
-  senderId: 'ssafy',
+  senderId: sessionStorage.getItem('userId'),
   receiverId: '',
 });
 
@@ -38,7 +42,9 @@ const startChat = () => {
       {{ mem.likeUserId }}
     </div>
 
-    <button class="btn btn-primary" @click="startChat()">채팅</button>
+    <button class="btn btn-primary" @click="startChat()" v-show="mem.likeUserId != user">
+      채팅
+    </button>
   </div>
 </template>
 

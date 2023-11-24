@@ -9,7 +9,7 @@ const emit = defineEmits(['checkboxChanged']);
 
 const likeDto = ref({
   contentId: 0,
-  userId: 'ssafy',
+  userId: sessionStorage.getItem('userId'),
   type: 0,
 });
 

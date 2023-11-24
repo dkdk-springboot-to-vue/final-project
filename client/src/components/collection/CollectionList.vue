@@ -5,14 +5,14 @@ import { listCollection, registCollection, registBookmark } from '@/api/collecti
 const props = defineProps({ selectAttraction: Object });
 
 const colDto = ref({
-  userId: 'ssafy', // 로그인되면 바꾸기
+  userId: sessionStorage.getItem('userId'), // 로그인되면 바꾸기
   title: '',
 });
 
 const bookmarkDto = ref({
   cid: 0,
   contentId: 0,
-  userId: 'ssafy', // 로그인되면 바꾸기
+  userId: sessionStorage.getItem('userId'), // 로그인되면 바꾸기
   title: '',
 });
 
@@ -21,7 +21,7 @@ const collections = ref([]);
 const getCollectoinList = () => {
   console.log('getCollectionList');
   listCollection(
-    'ssafy', // 로그인되면 바꾸기
+    sessionStorage.getItem('userId'),
     ({ data }) => {
       console.log(data);
       data.forEach((ele) => {

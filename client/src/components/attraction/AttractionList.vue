@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, watch } from 'vue';
 import { listSido, listGugun, listAttr, getAttractionListByDist } from '@/api/map';
+import { listCollection, listBookmark } from '@/api/collection';
 
 import AttractionListItem from '@/components/attraction/item/AttractionListItem.vue';
 import AttractionDetail from '@/components/attraction/AttractionDetail.vue';
@@ -12,6 +13,9 @@ const sidoList = ref([]);
 const gugunList = ref([{ text: '구군선택', value: '' }]);
 const attractions = ref([]);
 const selectAttraction = ref({});
+const viewType = ref('region'); // 기본값은 '지역 보기'
+const collectionList = ref([]);
+const bookmarks = ref([]);
 
 let attractionArr = [];
 let attractionByDistArr = [];
@@ -29,6 +33,23 @@ const attr = ref({
 onMounted(() => {
   getSidoList();
 });
+
+const getListCollection = () => {
+  listCollection(
+    sessionStorage.getItem('userId'), // 로그인되면 바꾸기
+    ({ data }) => {
+      let options = [];
+      options.push({ text: '보기 선택', value: '' });
+      data.forEach((ele) => {
+        options.push({ text: ele.title, value: ele.cid });
+      });
+      collectionList.value = options;
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+};
 
 const getSidoList = () => {
   listSido(
@@ -71,13 +92,27 @@ const onChangeGugun = (val) => {
   getAttractions();
 };
 
+const onChangeCollection = (val) => {
+  console.log(val);
+  listBookmark(
+    val,
+    ({ data }) => {
+      console.log(data);
+      attractions.value = data;
+    },
+    (err) => {
+      console.log(err);
+    }
+  );
+};
+
 const getAttractions = () => {
   console.log(attr.value);
   listAttr(
     attr.value,
     ({ data }) => {
-      attractionArr = data;
-      attractions.value = attractionArr;
+      // attractionArr = data;
+      attractions.value = data;
     },
     (err) => {
       console.log(err);
@@ -91,17 +126,13 @@ const getAttractionsByDist = (flag) => {
     getAttractionListByDist(
       attr.value,
       ({ data }) => {
-        attractionByDistArr = data;
-        attractions.value = attractionByDistArr;
+        // attractionByDistArr = data;
+        attractions.value = data;
       },
       (err) => {
         console.log(err);
       }
     );
-  } else {
-    if (attractionArr.length > 0) {
-      attractions.value = attractionArr;
-    }
   }
 };
 
@@ -132,48 +163,72 @@ watch(
     getAttractionsByDist(checkbox.value);
   }
 );
+
+watch(
+  () => viewType.value,
+  (newValue, oldValue) => {
+    if (newValue === 'region') {
+      onChangeSido();
+    } else if (newValue === 'collection') {
+      getListCollection();
+    }
+  }
+);
 </script>
 
 <template>
   <div class="text-center mt-3">
-    <div class="alert alert-success" role="alert">관광지 목록</div>
+    <div class="col">
+      <select v-model="viewType">
+        <option value="region">지역 보기</option>
+        <option value="collection">컬렉션 보기</option>
+      </select>
+    </div>
     <div class="row mb-2">
-      <div class="col d-flex flex-row-reverse">
-        <VSelect :selectOption="sidoList" @onKeySelect="onChangeSido" />
-      </div>
-      <div class="col">
-        <VSelect :selectOption="gugunList" @onKeySelect="onChangeGugun" />
-      </div>
+      <template v-if="viewType == 'region'">
+        <div class="col d-flex flex-row-reverse">
+          <VSelect :selectOption="sidoList" @onKeySelect="onChangeSido" />
+        </div>
+        <div class="col">
+          <VSelect :selectOption="gugunList" @onKeySelect="onChangeGugun" />
+        </div>
+      </template>
+      <template v-else>
+        <div class="col">
+          <VSelect :selectOption="collectionList" @onKeySelect="onChangeCollection" />
+        </div>
+      </template>
 
-      <div class="col d-flex">
-        <div class="panel panel-default d-flex">
-          <div class="panel-heading">
-            <p class="panel-title">주위 반경 보기</p>
+      <template v-if="Object.keys(selectAttraction).length > 0 && viewType == 'region'">
+        <div class="col d-flex">
+          <div class="panel panel-default d-flex">
+            <div class="panel-heading">
+              <p class="panel-title">주위 반경 보기</p>
+            </div>
+            <div class="panel-body">
+              <!--Only code you need is this label-->
+              <label class="switch">
+                <input type="checkbox" @click="toggleCheckbox" />
+                <div class="slider round"></div>
+              </label>
+            </div>
           </div>
-          <div class="panel-body">
-            <!--Only code you need is this label-->
-            <label class="switch">
-              <input type="checkbox" @click="toggleCheckbox" />
-              <div class="slider round"></div>
-            </label>
-            <p>{{ checkbox }}</p>
+          <div class="d-flex">
+            거리조절
+            <input
+              type="range"
+              id="a"
+              name="ages"
+              min="0.5"
+              max="5"
+              step="0.5"
+              v-model="attr.dist"
+              @change="changeDist()"
+            />
+            <div>{{ attr.dist }}</div>
           </div>
         </div>
-        <div class="d-flex">
-          거리조절
-          <input
-            type="range"
-            id="a"
-            name="ages"
-            min="0.5"
-            max="5"
-            step="0.5"
-            v-model="attr.dist"
-            @change="changeDist()"
-          />
-          <div>{{ attr.dist }}</div>
-        </div>
-      </div>
+      </template>
     </div>
     <div class="row" id="map-attraction">
       <div class="col-2" id="attraction-scroll">

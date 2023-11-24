@@ -11,16 +11,30 @@
  	</insert>
  	
  	<select id="listRoom" parameterType="String" resultType="chatRoomDto">
- 		select roomId, contentId, senderId, receiverId, createdAt, recentMessage
- 		from chatrooms
- 		where senderId=#{userId} or receiverId=#{userId}
- 		order by createdAt desc;
+		SELECT cr.roomId,
+		       cr.contentId,
+		       cr.senderId,
+		       cr.receiverId,
+		       cr.recentMessage,
+		       cr.createdAt,
+		       ai.title
+		FROM chatrooms cr
+		LEFT JOIN attraction_info ai ON cr.contentId = ai.content_id
+		WHERE cr.senderId = #{userId} OR cr.receiverId = #{userId}
+		ORDER BY cr.createdAt DESC;
  	</select>
  	
  	<select id="detailRoom" parameterType="int" resultType="chatRoomDto">
- 		select roomId, contentId, senderId, receiverId, createdAt, recentMessage
- 		from chatrooms
- 		where roomId = #{roomId}
+		  SELECT cr.roomId,
+		         cr.contentId,
+		         cr.senderId,
+		         cr.receiverId,
+		         cr.createdAt,
+		         cr.recentMessage,
+		         ai.title
+		  FROM chatrooms cr
+		  LEFT JOIN attraction_info ai ON cr.contentId = ai.content_id
+		  WHERE cr.roomId = #{roomId};
  	</select>
  
  	<select id="listChat" parameterType="int" resultType="chatDto">

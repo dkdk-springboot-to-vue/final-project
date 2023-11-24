@@ -11,6 +11,11 @@ import { detailRoom } from '@/api/chat';
 const route = useRoute();
 const router = useRouter();
 
+const chatContainer = ref(null);
+
+const user = ref('');
+user.value = sessionStorage.getItem('userId');
+
 const { roomid } = route.params;
 console.log('roomId : ' + roomid);
 const chatroom = ref({});
@@ -22,12 +27,15 @@ const chat = ref({
   chatId: 0,
   createdAt: '',
   content: '',
-  userId: 'ssafy',
+  userId: sessionStorage.getItem('userId'),
 });
 
 onMounted(() => {
   getChatRoom();
   connection(); // 컴포넌트가 마운트되면 소켓 연결 시도
+  console.log();
+  scrollToBottom();
+  watch(recvList, () => {});
 });
 
 const getChatRoom = () => {
@@ -62,7 +70,7 @@ const send = () => {
 // });
 
 const connection = () => {
-  const serverURL = 'http://192.168.205.92:80/ws';
+  const serverURL = `${process.env.VUE_APP_API_URL}/ws`;
   let socket = new SockJs(serverURL);
   stompClient = Stomp.over(socket);
   console.log(stompClient);
@@ -100,36 +108,63 @@ function onSubmit() {
     alert(chatErrMsg.value);
   } else {
     send();
+    chat.value.content = '';
+  }
+}
+
+function scrollToBottom() {
+  if (chatContainer.value) {
+    chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
   }
 }
 </script>
 
 <template>
-  <div v-for="chat in recvList" :key="chat.chatId">
-    <div>{{ chat.userId }} : {{ chat.content }}</div>
-  </div>
-  <div>
-    <button @click="connection()">버튼</button>
-  </div>
-  <div>
-    <form @submit.prevent="onSubmit">
-      <div class="mb-3">
-        <label for="subject" class="form-label">채팅 내용 작성 </label>
-        <input
-          type="text"
-          class="form-control"
-          id="content"
-          name="replyCotent"
-          placeholder="입력하시오..."
-          v-model="chat.content"
-        />
+  <div class="container">
+    <div id="chat-wrapper" ref="chatContainer">
+      <div>
+        <strong>{{ chatroom.title }}</strong> (으)로부터 시작된 메시지
       </div>
-
-      <div class="d-flex justify-content-end">
-        <input type="submit" id="btn-reply" class="btn btn-outline-primary mb-3" value="작성 " />
+      <div
+        v-for="chat in recvList"
+        :key="chat.chatId"
+        :class="{ 'align-right': chat.userId === user, 'align-left': chat.userId !== user }"
+      >
+        <div>{{ chat.userId }} : {{ chat.content }}</div>
       </div>
-    </form>
+    </div>
+    <div>
+      <form @submit.prevent="onSubmit">
+        <div class="d-flex justify-content-end">
+          <div class="input-group mb-3">
+            <input
+              type="text"
+              class="form-control"
+              name="replyCotent"
+              placeholder="채팅 내용 작성..."
+              aria-label="Recipient's username"
+              aria-describedby="button-addon2"
+              v-model="chat.content"
+            />
+            <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
+              Button
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+#chat-wrapper {
+  height: 200px;
+  overflow: auto; /* 또는 overflow: hidden; */
+  /* display: flex; */
+  flex-direction: column_reverse;
+}
+
+.align-right {
+  text-align: right;
+}
+</style>

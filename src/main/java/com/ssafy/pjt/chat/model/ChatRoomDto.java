@@ -31,4 +31,6 @@ public class ChatRoomDto {
     
     @ApiModelProperty(value = "채팅목록")
     private List<ChatDto> chatList;
+    
+    private String title;
 }

@@ -16,11 +16,22 @@ const props = defineProps({
 watch(
   [() => props.selectAttraction.value, () => props.checkbox, () => props.dist],
   () => {
+    if (overlay) {
+      overlay.setMap(null);
+    }
     // 이동할 위도 경도 위치를 생성합니다
     var moveLatLon = new kakao.maps.LatLng(
       props.selectAttraction.latitude,
       props.selectAttraction.longitude
     );
+
+    if (circleOverlay) {
+      circleOverlay.setMap(null);
+    }
+
+    if (props.checkbox) {
+      showCircle(moveLatLon, props.selectAttraction.dist);
+    }
 
     // 지도 중심을 부드럽게 이동시킵니다
     // 만약 이동할 거리가 지도 화면보다 크면 부드러운 효과 없이 이동합니다
@@ -29,14 +40,6 @@ watch(
     const attraction = props.selectAttraction;
     const content = generateOverlayContent(attraction);
     displayOverlay(moveLatLon, content);
-
-    if (circleOverlay) {
-      circleOverlay.setMap(null);
-    }
-    if (props.checkbox) {
-      showCircle(moveLatLon, props.selectAttraction.dist);
-    }
-    console.log('whatch checkboxs');
   },
   { deep: true }
 );

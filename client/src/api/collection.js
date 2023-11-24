@@ -24,7 +24,7 @@ function updateCollection(dto, success, fail) {
 }
 
 function listBookmark(cId, success, fail) {
-  local.get(`${url}?cid=${cId}`).then(success).catch(fail);
+  local.get(`${url}/bookmark/${cId}`).then(success).catch(fail);
 }
 
 function registBookmark(dto, success, fail) {

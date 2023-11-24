@@ -2,13 +2,16 @@
   <div>
     <div class="topnav">
       <!-- Home Link -->
-      <router-link to="/" :class="{ active: isRouteActive('/') }">Home</router-link>
 
       <!-- Map Link -->
-      <router-link :to="{ name: 'attractions' }" :class="{ active: isRouteActive('/') }">Map</router-link>
+      <router-link :to="{ name: 'attractions' }" :class="{ active: isRouteActive('/') }"
+        >Home</router-link
+      >
 
       <!-- chat link-->
-      <router-link :to="{ name: 'chatroom-list' }" :class="{ active: isRouteActive('/') }">chat</router-link>
+      <router-link :to="{ name: 'chatroom-list' }" :class="{ active: isRouteActive('/') }"
+        >chat</router-link
+      >
 
       <!-- board link-->
       <router-link :to="{ name: 'board' }" class="nav-link">board</router-link>
@@ -18,14 +21,25 @@
 
       <!-- <div>{{ userId }}</div> -->
 
-      <!-- myPage Link -->
-      <router-link :to="{ name: 'member-page' }" :class="{ active: isRouteActive('/') }">My Page</router-link>
+      <template v-if="userId != null">
+        <div>{{ userId }} 님</div>
+        <!-- My Page Link -->
+        <router-link :to="{ name: 'member-page' }" :class="{ active: isRouteActive('/') }"
+          >My Page</router-link
+        >
+      </template>
 
-      <!-- Login Link -->
-      <router-link :to="{ name: 'member-login' }" :class="{ active: isRouteActive('/') }">Login</router-link>
+      <template v-else>
+        <!-- Login Link -->
+        <router-link :to="{ name: 'member-login' }" :class="{ active: isRouteActive('/') }"
+          >Login</router-link
+        >
 
-      <!-- Register Link -->
-      <router-link :to="{ name: 'member-register' }" :class="{ active: isRouteActive('/') }">Register</router-link>
+        <!-- Register Link -->
+        <router-link :to="{ name: 'member-register' }" :class="{ active: isRouteActive('/') }"
+          >Register</router-link
+        >
+      </template>
     </div>
     <!-- <router-view></router-view> -->
   </div>
@@ -41,8 +55,8 @@ export default {
     const router = useRouter();
 
     // 세션스토리지
-    // const userId = ref('');
-    // userId.value = sessionStorage.getItem('user')
+    const userId = ref();
+    userId.value = sessionStorage.getItem('userId');
 
     const isRouteActive = (path) => {
       // Check if the current route path starts with the specified path
@@ -51,7 +65,7 @@ export default {
 
     return {
       isRouteActive,
-      // userId,
+      userId,
     };
   },
 };

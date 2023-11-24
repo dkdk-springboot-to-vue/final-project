@@ -15,7 +15,7 @@ onMounted(() => {
 const getChatRoomList = () => {
   console.log('채팅 목록 얻어오기');
   listRoom(
-    'ssafy',
+    sessionStorage.getItem('userId'),
     ({ data }) => {
       console.log(data);
       chatrooms.value = data;
@@ -39,7 +39,7 @@ const getChatRoomList = () => {
       <table class="table table-hover">
         <thead>
           <tr class="text-center">
-            <th scope="col">방 번호</th>
+            <th scope="col">관광지명</th>
             <th scope="col">채팅상대</th>
             <th scope="col">생성일자</th>
           </tr>
